@@ -13,7 +13,7 @@ abstract class Shape
 
     static Shape()
     {
-        r = 0;
+        r = 25;
     }
 }
 

@@ -1,7 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
-using System;
+using System.Collections.Generic;
 
 namespace Task_2
 {
@@ -9,12 +8,14 @@ namespace Task_2
     {
         public override void Render(DrawingContext drawingContext)
         {
-            Pen pen = new Pen(Brushes.Green, 1);
-            Brush brush = new SolidColorBrush(Colors.Black);
+            List<Shape> shapes = [new Circle(100, 100), new Square(200, 100), new Triangle(300, 100),
+                                    new Circle(100, 200), new Circle(200, 200), new Square(200, 200), new Circle(300, 200), new Triangle(300, 200),
+                                    new Circle(200, 300), new Square(200, 300), new Triangle(200, 300)];
 
-            drawingContext.DrawEllipse(brush, pen, new Point(100, 100), 10, 20);
-
-            Console.WriteLine("DRAWING");
+            foreach (Shape shape in shapes)
+            {
+                shape.Draw(drawingContext);
+            }
         }
     }
 }

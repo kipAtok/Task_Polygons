@@ -13,10 +13,13 @@ namespace Task_2
             Pen pen = new Pen(Brushes.Green, 1);
             Brush brush = new SolidColorBrush(Colors.Black);
             double side = _r * Math.Sqrt(3);
-            Point[] points = [new Point(_x - side / 2, _y + _r / 2),
-                                new Point(_x, _y - _r),
-                                new Point(_x + side / 2, _y + _r / 2),
-                                new Point(_x - side / 2, _y + _r / 2)];
+            Point[] points = 
+            [
+                new Point(_x - side / 2, _y + _r / 2),
+                new Point(_x, _y - _r),
+                new Point(_x + side / 2, _y + _r / 2),
+                new Point(_x - side / 2, _y + _r / 2)
+            ];
             PolylineGeometry geometry = new PolylineGeometry(points, true);
 
             drawingContext.DrawGeometry(brush, pen, geometry);

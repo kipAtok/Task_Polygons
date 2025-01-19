@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media;
 
-namespace Task_2
+namespace Task_Polygons
 {
     abstract class Shape
     {

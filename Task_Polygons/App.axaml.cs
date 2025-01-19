@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace Task_2
+namespace Task_Polygons
 {
     public partial class App : Application
     {

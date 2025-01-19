@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 
-namespace Task_2
+namespace Task_Polygons
 {
     sealed class Circle : Shape
     {

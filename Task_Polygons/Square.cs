@@ -2,7 +2,7 @@
 using Avalonia.Media;
 using System;
 
-namespace Task_2
+namespace Task_Polygons
 {
     sealed class Square : Shape
     {

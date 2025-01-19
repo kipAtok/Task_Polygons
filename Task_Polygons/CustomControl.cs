@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
 
-namespace Task_2
+namespace Task_Polygons
 {
     public class CustomControl : UserControl
     {

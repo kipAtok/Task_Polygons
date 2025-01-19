@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Task_2
+namespace Task_Polygons
 {
     public partial class MainWindow : Window
     {

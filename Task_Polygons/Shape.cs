@@ -19,6 +19,8 @@ namespace Task_Polygons
         }
 
         public abstract void Draw(DrawingContext drawingContext);
+
+        public abstract bool IsInside(int x, int y);
     }
 }
 

@@ -5,6 +5,9 @@
         xmlns:Task_Polygons="clr-namespace:Task_Polygons"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.MainWindow"
+        PointerPressed="Window_PointerPressed"
+        PointerMoved="Window_PointerMoved"
+        PointerReleased="Window_PointerReleased"
         Title="Task_Polygons">
         <Task_Polygons:CustomControl Name="myCC"/>
 </Window>

@@ -29,6 +29,15 @@ namespace Task_Polygons
             drawingContext.DrawGeometry(brush, pen, geometry);
         }
 
+        public override void Move(int x, int y)
+        {
+            base.Move(x, y);
+            double side = _r * Math.Sqrt(3);
+            _leftPoint = new Point(_x - side / 2, _y + _r / 2);
+            _topPoint = new Point(_x, _y - _r);
+            _rightPoint = new Point(_x + side / 2, _y + _r / 2);
+        }
+
         public override bool IsInside(int x, int y)
         {
             Point point = new Point(x, y);

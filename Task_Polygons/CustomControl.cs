@@ -49,11 +49,18 @@ namespace Task_Polygons
 
         public void RightClick(int x, int y)
         {
-            int toRemoveIndex = _shapes.FindLastIndex(shape => shape.IsInside(x, y));
-            
-            if (toRemoveIndex >= 0)
+            Shape shapeToRemove = null;
+
+            foreach (var shape in _shapes)
             {
-                _shapes.RemoveAt(toRemoveIndex);
+                if (shape.IsInside(x, y))
+                {
+                    shapeToRemove = shape;
+                }
+            }
+            if (shapeToRemove != null)
+            {
+                _shapes.Remove(shapeToRemove);
             }
 
             InvalidateVisual();

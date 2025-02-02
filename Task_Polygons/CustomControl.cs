@@ -1,5 +1,5 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,18 +9,17 @@ namespace Task_Polygons
     public class CustomControl : UserControl
     {
         private int _x, _y;
-        private List<Shape> _shapes =
-        [
-            new Circle(100, 100), new Square(200, 100), new Triangle(300, 100), 
-            new Circle(100, 200), new Circle(200, 200), new Square(200, 200), new Circle(300, 200), new Triangle(300, 200), 
-            new Circle(200, 300), new Square(200, 300), new Triangle(200, 300)
-        ];
+        private List<Shape> _shapes = [];
 
         public override void Render(DrawingContext drawingContext)
         {
             foreach (var shape in _shapes)
             {
                 shape.Draw(drawingContext);
+            }
+            if (_shapes.Count >= 3)
+            {
+                DrawShell(drawingContext);
             }
         }
 
@@ -39,6 +38,11 @@ namespace Task_Polygons
             if (!isInside) 
             { 
                 _shapes.Add(new Triangle(x, y));
+            }
+            if (_shapes.Count >= 3)
+            {
+                DrawShell(null);
+                RemoveNonShell();
             }
 
             _x = x;
@@ -94,8 +98,104 @@ namespace Task_Polygons
 
             _x = x;
             _y = y;
+            
+            RemoveNonShell();
 
             InvalidateVisual();
+        }
+
+        private void DrawShell(DrawingContext drawingContext)
+        {
+            int i1 = 0, i2, i3;
+            double k, b;
+            bool above, below;
+            Pen pen = new Pen(Brushes.Green, 1);
+
+            foreach (var shape in _shapes)
+            {
+                shape.IsShell = false;
+            }
+            foreach (var shape1 in _shapes)
+            {
+                i2 = 0;
+
+                foreach(var shape2 in _shapes)
+                {
+                    if (i2 <= i1)
+                    {
+                        i2++;
+                        continue;
+                    }
+
+                    i3 = 0;
+                    above = false;
+                    below = false;
+
+                    foreach (var shape3 in _shapes)
+                    {
+                        if (i3 != i1 && i3 != i2)
+                        {
+                            if (shape1.X != shape2.X)
+                            {
+                                k = (double)(shape2.Y - shape1.Y) / (shape2.X - shape1.X);
+                                b = shape1.Y - shape1.X * k;
+
+                                if (shape3.Y < k * shape3.X + b)
+                                {
+                                    above = true;
+                                }
+                                else if (shape3.Y > k * shape3.X + b)
+                                {
+                                    below = true;
+                                }
+                            } 
+                            else
+                            {
+                                if (shape3.X < shape1.X)
+                                {
+                                    above = true;
+                                }
+                                else if (shape3.X > shape1.X)
+                                {
+                                    below = true;
+                                }
+                            }
+                        }
+
+                        i3++;
+                    }
+                    if (above != below)
+                    {
+                        shape1.IsShell = true;
+                        shape2.IsShell = true;
+
+                        if (drawingContext != null)
+                        {
+                            drawingContext.DrawLine(pen, new Point(shape1.X, shape1.Y), new Point(shape2.X, shape2.Y));
+                        }
+                    }
+
+                    i2++;
+                }
+
+                i1++;
+            }
+
+        }
+
+        private void RemoveNonShell()
+        {
+            List<Shape> shapes = [];
+
+            foreach (var shape in _shapes)
+            {
+                if (shape.IsShell)
+                {
+                    shapes.Add(shape);
+                }
+            }
+
+            _shapes = shapes;
         }
     }
 }

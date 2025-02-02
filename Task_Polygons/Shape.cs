@@ -8,6 +8,23 @@ namespace Task_Polygons
         protected int _x, _y;
         protected static int _r;
         public bool IsMoving { get; set; }
+        public bool IsShell { get; set; } = true;
+
+        public int X
+        {
+            get
+            {
+                return _x;
+            }
+        }
+
+        public int Y
+        {
+            get
+            {
+                return _y;
+            }
+        }
 
         protected Shape(int x, int y)
         {

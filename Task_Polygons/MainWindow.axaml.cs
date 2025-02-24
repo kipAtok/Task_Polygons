@@ -7,7 +7,7 @@ namespace Task_Polygons
 {
     public partial class MainWindow : Window
     {
-        bool _pointerPressedInMenu;
+        private bool _pointerPressedInMenu;
 
         public MainWindow()
         {

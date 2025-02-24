@@ -9,10 +9,9 @@ namespace Task_Polygons
 
         public override void Draw(DrawingContext drawingContext)
         {
-            Pen pen = new Pen(Brushes.Green, 1);
-            Brush brush = new SolidColorBrush(Colors.Black);
+            Brush brush = new SolidColorBrush(Colors.Green);
 
-            drawingContext.DrawEllipse(brush, pen , new Point(_x, _y), _r, _r);
+            drawingContext.DrawEllipse(brush, null, new Point(_x, _y), _r, _r);
         }
 
         public override bool IsInside(int x, int y)

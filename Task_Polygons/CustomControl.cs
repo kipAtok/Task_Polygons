@@ -1,10 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Intrinsics.X86;
+using System.Linq;
 
 namespace Task_Polygons
 {
@@ -56,6 +55,13 @@ namespace Task_Polygons
             if (_shapes.Count >= 3)
             {
                 DrawShell(null);
+                if (!_shapes.Last().IsShell)
+                {
+                    foreach (var shape in _shapes)
+                    {
+                        shape.IsMoving = true;
+                    }
+                }
                 RemoveNonShell();
             }
 

@@ -12,7 +12,7 @@ namespace Task_Polygons
         public MainWindow()
         {
             InitializeComponent();
-            ShapeTypes.ItemsSource = new[] {"Circle", "Square", "Triangle"};
+            ShapeTypes.ItemsSource = new string[] {"Circle", "Square", "Triangle"};
             ShapeTypes.SelectedIndex = 0;
         }
 

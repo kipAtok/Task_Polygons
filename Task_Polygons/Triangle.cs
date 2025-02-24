@@ -18,15 +18,14 @@ namespace Task_Polygons
 
         public override void Draw(DrawingContext drawingContext)
         {
-            Pen pen = new Pen(Brushes.Green, 1);
-            Brush brush = new SolidColorBrush(Colors.Black);
+            Brush brush = new SolidColorBrush(Colors.Green);
             Point[] points = 
             [
                 _leftPoint, _topPoint, _rightPoint, _leftPoint
             ];
             PolylineGeometry geometry = new PolylineGeometry(points, true);
 
-            drawingContext.DrawGeometry(brush, pen, geometry);
+            drawingContext.DrawGeometry(brush, null, geometry);
         }
 
         public override void Move(int x, int y)

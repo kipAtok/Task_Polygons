@@ -1,25 +1,28 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 
 namespace Task_Polygons
 {
     public class CustomControl : UserControl
     {
         private int _x, _y;
+        private string _shapeType;
         private List<Shape> _shapes = [];
 
         public override void Render(DrawingContext drawingContext)
         {
-            foreach (var shape in _shapes)
-            {
-                shape.Draw(drawingContext);
-            }
             if (_shapes.Count >= 3)
             {
                 DrawShell(drawingContext);
+            }
+            foreach (var shape in _shapes)
+            {
+                shape.Draw(drawingContext);
             }
         }
 
@@ -36,8 +39,19 @@ namespace Task_Polygons
                 }
             }
             if (!isInside) 
-            { 
-                _shapes.Add(new Triangle(x, y));
+            {
+                if (_shapeType == "Circle")
+                {
+                    _shapes.Add(new Circle(x, y));
+                }
+                else if (_shapeType == "Square")
+                {
+                    _shapes.Add(new Square(x, y));
+                }
+                else if (_shapeType == "Triangle")
+                {
+                    _shapes.Add(new Triangle(x, y));
+                }
             }
             if (_shapes.Count >= 3)
             {
@@ -102,6 +116,11 @@ namespace Task_Polygons
             RemoveNonShell();
 
             InvalidateVisual();
+        }
+
+        public void ChangeShapeType(string shapeType)
+        {
+            _shapeType = shapeType;
         }
 
         private void DrawShell(DrawingContext drawingContext)

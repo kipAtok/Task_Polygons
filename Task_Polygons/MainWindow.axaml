@@ -5,9 +5,19 @@
         xmlns:Task_Polygons="clr-namespace:Task_Polygons"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.MainWindow"
-        PointerPressed="Window_PointerPressed"
-        PointerMoved="Window_PointerMoved"
-        PointerReleased="Window_PointerReleased"
-        Title="Task_Polygons">
-        <Task_Polygons:CustomControl Name="myCC"/>
+        Title="Task_Polygons"
+		PointerPressed="Window_PointerPressed"
+		PointerMoved="Window_PointerMoved"
+		PointerReleased="Window_PointerReleased">
+	<DockPanel>
+		<Menu DockPanel.Dock="Top"
+			  PointerPressed="Menu_PointerPressed" 
+			  Background="LimeGreen">
+			<MenuItem Header="Shape type"
+					  Foreground="Black">
+				<ListBox Name="ShapeTypes" SelectionChanged="Menu_ShapeTypeChanged"/>
+			</MenuItem>
+		</Menu>
+		<Task_Polygons:CustomControl Name="myCC"/>
+	</DockPanel>
 </Window>

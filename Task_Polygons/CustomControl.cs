@@ -12,6 +12,7 @@ namespace Task_Polygons
     {
         private int _x, _y;
         private string _shapeType;
+        private Pen _pen = new Pen(Brushes.Green);
         private List<Shape> _shapes = [];
 
         public override void Render(DrawingContext drawingContext)
@@ -21,6 +22,7 @@ namespace Task_Polygons
                 //DrawShell(drawingContext);
                 DrawShellJarvis(drawingContext);
             }
+
             foreach (var shape in _shapes)
             {
                 shape.Draw(drawingContext);
@@ -227,10 +229,9 @@ namespace Task_Polygons
         private void DrawShellJarvis(DrawingContext drawingContext)
         {
             Shape firstShape = _shapes.OrderBy(x => x.Y).ThenBy(x => x.X).Last();
-            List<Shape> shapes = [firstShape];
 
             Shape curShape = firstShape, prevShape = new Circle(firstShape.X + 100, firstShape.Y), tempShape;
-            double minCos = 1, cos;
+            double minCos, cos;
 
             foreach (var shape in _shapes)
             {
@@ -257,34 +258,18 @@ namespace Task_Polygons
                 }
 
                 prevShape = curShape;
+                prevShape.IsShell = true;
                 curShape = tempShape;
-                shapes.Add(curShape);
+                
+                if (drawingContext != null)
+                {
+                    drawingContext.DrawLine(_pen, new Point(prevShape.X, prevShape.Y), new Point(curShape.X, curShape.Y));
+                }
 
-                if(curShape == firstShape)
+                if (curShape == firstShape)
                 {
                     break;
                 }
-            }
-
-            foreach (var shape in shapes)
-            {
-                shape.IsShell = true;
-            }
-
-            if (drawingContext != null)
-            {
-                List<Point> points = [];
-
-                foreach (var shape in shapes)
-                {
-                    points.Add(new Point(shape.X, shape.Y));
-                }
-
-                Brush brush = new SolidColorBrush(Colors.Green);
-                Pen pen = new Pen(brush);
-                PolylineGeometry geometry = new PolylineGeometry(points, false);
-
-                drawingContext.DrawGeometry(brush, pen, geometry);
             }
         }
 

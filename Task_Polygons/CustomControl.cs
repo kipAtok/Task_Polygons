@@ -143,7 +143,7 @@ namespace Task_Polygons
         {
             _drawGraph = !_drawGraph;
 
-            if (_drawGraph)
+            if (_defenitionPoints == null)
             {
                 MakeGraph();
             }

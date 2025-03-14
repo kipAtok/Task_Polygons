@@ -14,18 +14,24 @@ namespace Task_Polygons
         private string _shapeType;
         private Pen _pen = new Pen(Brushes.Green);
         private List<Shape> _shapes = [];
+        private bool _drawGraph = false;
+        Point[] _defenitionPoints, _jarvisPoints;
 
         public override void Render(DrawingContext drawingContext)
         {
             if (_shapes.Count >= 3)
             {
-                //DrawShell(drawingContext);
                 DrawShellJarvis(drawingContext);
             }
 
             foreach (var shape in _shapes)
             {
                 shape.Draw(drawingContext);
+            }
+
+            if (_drawGraph)
+            {
+                DrawGraph(drawingContext);
             }
         }
 
@@ -58,7 +64,6 @@ namespace Task_Polygons
             }
             if (_shapes.Count >= 3)
             {
-                //DrawShell(null);
                 DrawShellJarvis(null);
                 if (!_shapes.Last().IsShell)
                 {
@@ -134,84 +139,15 @@ namespace Task_Polygons
             _shapeType = shapeType;
         }
 
-        //private void DrawShell(DrawingContext drawingContext)
-        //{
-        //    int i1 = 0, i2, i3;
-        //    double k, b;
-        //    bool above, below;
-        //    Pen pen = new Pen(Brushes.Green, 1);
+        public void SwitchGraph()
+        {
+            _drawGraph = !_drawGraph;
 
-        //    foreach (var shape in _shapes)
-        //    {
-        //        shape.IsShell = false;
-        //    }
-        //    foreach (var shape1 in _shapes)
-        //    {
-        //        i2 = 0;
-
-        //        foreach(var shape2 in _shapes)
-        //        {
-        //            if (i2 <= i1)
-        //            {
-        //                i2++;
-        //                continue;
-        //            }
-
-        //            i3 = 0;
-        //            above = false;
-        //            below = false;
-
-        //            foreach (var shape3 in _shapes)
-        //            {
-        //                if (i3 != i1 && i3 != i2)
-        //                {
-        //                    if (shape1.X != shape2.X)
-        //                    {
-        //                        k = (double)(shape2.Y - shape1.Y) / (shape2.X - shape1.X);
-        //                        b = shape1.Y - shape1.X * k;
-
-        //                        if (shape3.Y < k * shape3.X + b)
-        //                        {
-        //                            above = true;
-        //                        }
-        //                        else if (shape3.Y > k * shape3.X + b)
-        //                        {
-        //                            below = true;
-        //                        }
-        //                    } 
-        //                    else
-        //                    {
-        //                        if (shape3.X < shape1.X)
-        //                        {
-        //                            above = true;
-        //                        }
-        //                        else if (shape3.X > shape1.X)
-        //                        {
-        //                            below = true;
-        //                        }
-        //                    }
-        //                }
-
-        //                i3++;
-        //            }
-        //            if (above != below)
-        //            {
-        //                shape1.IsShell = true;
-        //                shape2.IsShell = true;
-
-        //                if (drawingContext != null)
-        //                {
-        //                    drawingContext.DrawLine(pen, new Point(shape1.X, shape1.Y), new Point(shape2.X, shape2.Y));
-        //                }
-        //            }
-
-        //            i2++;
-        //        }
-
-        //        i1++;
-        //    }
-
-        //}
+            if (_drawGraph)
+            {
+                MakeGraph();
+            }
+        }
 
         private double Cos(Shape shape1, Shape shape2, Shape shape3)
         {
@@ -275,17 +211,45 @@ namespace Task_Polygons
 
         private void RemoveNonShell()
         {
-            List<Shape> shapes = [];
+            _shapes = _shapes.FindAll(x => x.IsShell);
+        }
 
-            foreach (var shape in _shapes)
+        private void MakeGraph()
+        {
+            Point[] defenitionPoints = new Point[12];
+            Point[] jarvisPoints = new Point[12];
+
+            int defenitionX, defenitionY, jarvisX, jarvisY;
+
+            for (int shapeCount = 3; shapeCount < 300; shapeCount += 25)
             {
-                if (shape.IsShell)
-                {
-                    shapes.Add(shape);
-                }
+                jarvisX = 60 + shapeCount;
+                jarvisY = 600 - AlgTime.JarvisTime(shapeCount);
+
+                defenitionX = 60 + shapeCount;
+                defenitionY = 600 - AlgTime.DefenitionTime(shapeCount);
+
+                defenitionPoints[(shapeCount - 3) / 25] = new Point(defenitionX, defenitionY);
+                jarvisPoints[(shapeCount - 3) / 25] = new Point(jarvisX, jarvisY);
             }
 
-            _shapes = shapes;
+            _defenitionPoints = defenitionPoints;
+            _jarvisPoints = jarvisPoints;
+        }
+
+        private void DrawGraph(DrawingContext drawingContext)
+        {
+            Pen defenitionPen = new Pen(new SolidColorBrush(Colors.Red));
+            Pen jarvisPen = new Pen(new SolidColorBrush(Colors.Yellow));
+
+            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White)), new Point(50, 610), new Point(50, 160));
+            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White)), new Point(50, 610), new Point(500, 610));
+
+            Geometry defenitionGeometry = new PolylineGeometry(_defenitionPoints, false);
+            Geometry jarvisGeometry = new PolylineGeometry(_jarvisPoints, false);
+
+            drawingContext.DrawGeometry(null, defenitionPen, defenitionGeometry);
+            drawingContext.DrawGeometry(null, jarvisPen, jarvisGeometry);
         }
     }
 }

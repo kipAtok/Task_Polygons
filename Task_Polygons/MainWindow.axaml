@@ -17,6 +17,10 @@
 					  Foreground="Black">
 				<ListBox Name="ShapeTypes" SelectionChanged="Menu_ShapeTypeChanged"/>
 			</MenuItem>
+			<MenuItem Header="Algorithms"
+					  Foreground="Black"
+					  PointerPressed="Menu_DrawGraph">
+			</MenuItem>
 		</Menu>
 		<Task_Polygons:CustomControl Name="myCC"/>
 	</DockPanel>

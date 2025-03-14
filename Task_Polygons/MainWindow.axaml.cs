@@ -58,5 +58,11 @@ namespace Task_Polygons
             CustomControl cc = this.Find<CustomControl>("myCC");
             cc.ChangeShapeType(e.AddedItems[0].ToString());
         }
+
+        private void Menu_DrawGraph(object sender, PointerPressedEventArgs e)
+        {
+            CustomControl cc = this.Find<CustomControl>("myCC");
+            cc.SwitchGraph();
+        }
     }
 }

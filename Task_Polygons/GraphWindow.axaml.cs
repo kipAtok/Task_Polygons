@@ -17,5 +17,11 @@ namespace Task_Polygons
             GraphControl gc = this.Find<GraphControl>("myGC");
             gc.RefreshGraph();
         }
+
+        private void Menu_SwitchMarking(object sender, PointerPressedEventArgs e)
+        {
+            GraphControl gc = this.Find<GraphControl>("myGC");
+            gc.SwitchMarking();
+        }
     }
 }

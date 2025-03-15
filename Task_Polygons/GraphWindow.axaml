@@ -5,13 +5,17 @@
 		xmlns:Task_Polygons="clr-namespace:Task_Polygons"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.GraphWindow"
-        Title="Efficiency of algorithms">
+        Title="Algorithms graph">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top"
 			  Background="LimeGreen">
 			<MenuItem Header="Refresh graph"
 					  Foreground="Black"
 					  PointerPressed="Menu_RefreshGraph">
+			</MenuItem>
+			<MenuItem Header="Marking"
+					  Foreground="Black"
+					  PointerPressed="Menu_SwitchMarking">
 			</MenuItem>
 		</Menu>
 		<Task_Polygons:GraphControl Name="myGC"/>

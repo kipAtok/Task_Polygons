@@ -14,8 +14,6 @@ namespace Task_Polygons
         private string _shapeType;
         private Pen _pen = new Pen(Brushes.Green);
         private List<Shape> _shapes = [];
-        private bool _drawGraph = false;
-        Point[] _defenitionPoints, _jarvisPoints;
 
         public override void Render(DrawingContext drawingContext)
         {
@@ -27,11 +25,6 @@ namespace Task_Polygons
             foreach (var shape in _shapes)
             {
                 shape.Draw(drawingContext);
-            }
-
-            if (_drawGraph)
-            {
-                DrawGraph(drawingContext);
             }
         }
 
@@ -47,6 +40,7 @@ namespace Task_Polygons
                     shape.IsMoving = true;
                 }
             }
+
             if (!isInside) 
             {
                 if (_shapeType == "Circle")
@@ -62,6 +56,7 @@ namespace Task_Polygons
                     _shapes.Add(new Triangle(x, y));
                 }
             }
+
             if (_shapes.Count >= 3)
             {
                 DrawShellJarvis(null);
@@ -92,6 +87,7 @@ namespace Task_Polygons
                     shapeToRemove = shape;
                 }
             }
+
             if (shapeToRemove != null)
             {
                 _shapes.Remove(shapeToRemove);
@@ -137,16 +133,6 @@ namespace Task_Polygons
         public void ChangeShapeType(string shapeType)
         {
             _shapeType = shapeType;
-        }
-
-        public void SwitchGraph()
-        {
-            _drawGraph = !_drawGraph;
-
-            if (_defenitionPoints == null)
-            {
-                MakeGraph();
-            }
         }
 
         private double Cos(Shape shape1, Shape shape2, Shape shape3)
@@ -212,44 +198,6 @@ namespace Task_Polygons
         private void RemoveNonShell()
         {
             _shapes = _shapes.FindAll(x => x.IsShell);
-        }
-
-        private void MakeGraph()
-        {
-            Point[] defenitionPoints = new Point[12];
-            Point[] jarvisPoints = new Point[12];
-
-            int defenitionX, defenitionY, jarvisX, jarvisY;
-
-            for (int shapeCount = 3; shapeCount < 300; shapeCount += 25)
-            {
-                jarvisX = 60 + shapeCount;
-                jarvisY = 600 - AlgTime.JarvisTime(shapeCount);
-
-                defenitionX = 60 + shapeCount;
-                defenitionY = 600 - AlgTime.DefenitionTime(shapeCount);
-
-                defenitionPoints[(shapeCount - 3) / 25] = new Point(defenitionX, defenitionY);
-                jarvisPoints[(shapeCount - 3) / 25] = new Point(jarvisX, jarvisY);
-            }
-
-            _defenitionPoints = defenitionPoints;
-            _jarvisPoints = jarvisPoints;
-        }
-
-        private void DrawGraph(DrawingContext drawingContext)
-        {
-            Pen defenitionPen = new Pen(new SolidColorBrush(Colors.Red));
-            Pen jarvisPen = new Pen(new SolidColorBrush(Colors.Yellow));
-
-            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White)), new Point(50, 610), new Point(50, 160));
-            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White)), new Point(50, 610), new Point(500, 610));
-
-            Geometry defenitionGeometry = new PolylineGeometry(_defenitionPoints, false);
-            Geometry jarvisGeometry = new PolylineGeometry(_jarvisPoints, false);
-
-            drawingContext.DrawGeometry(null, defenitionPen, defenitionGeometry);
-            drawingContext.DrawGeometry(null, jarvisPen, jarvisGeometry);
         }
     }
 }

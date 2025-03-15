@@ -16,6 +16,8 @@ namespace Task_Polygons
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();
+                var GraphWindow = new GraphWindow();
+                GraphWindow.Show();
             }
 
             base.OnFrameworkInitializationCompleted();

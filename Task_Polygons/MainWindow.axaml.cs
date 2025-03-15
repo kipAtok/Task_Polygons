@@ -53,7 +53,12 @@ namespace Task_Polygons
             _pointerPressedInMenu = true;
         }
 
-        private void Menu_ShapeTypeChanged(object? sender, SelectionChangedEventArgs e)
+        private void Menu_PointerReleased(object sender, PointerReleasedEventArgs e)
+        {
+            _pointerPressedInMenu = false;
+        }
+
+        private void Menu_ShapeTypeChanged(object sender, SelectionChangedEventArgs e)
         {
             CustomControl cc = this.Find<CustomControl>("myCC");
             cc.ChangeShapeType(e.AddedItems[0].ToString());
@@ -61,8 +66,7 @@ namespace Task_Polygons
 
         private void Menu_DrawGraph(object sender, PointerPressedEventArgs e)
         {
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            cc.SwitchGraph();
+            // TODO
         }
     }
 }

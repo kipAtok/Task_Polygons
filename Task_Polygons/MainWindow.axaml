@@ -5,13 +5,14 @@
         xmlns:Task_Polygons="clr-namespace:Task_Polygons"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.MainWindow"
-        Title="Task_Polygons"
+        Title="Polygons"
 		PointerPressed="Window_PointerPressed"
 		PointerMoved="Window_PointerMoved"
 		PointerReleased="Window_PointerReleased">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top"
-			  PointerPressed="Menu_PointerPressed" 
+			  PointerPressed="Menu_PointerPressed"
+			  PointerReleased="Menu_PointerReleased"
 			  Background="LimeGreen">
 			<MenuItem Header="Shape type"
 					  Foreground="Black">

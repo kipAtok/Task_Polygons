@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:Task_Polygons="clr-namespace:Task_Polygons"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Task_Polygons.GraphWindow"
+        Title="Efficiency of algorithms">
+	<DockPanel>
+		<Menu DockPanel.Dock="Top"
+			  Background="LimeGreen">
+			<MenuItem Header="Refresh graph"
+					  Foreground="Black"
+					  PointerPressed="Menu_RefreshGraph">
+			</MenuItem>
+		</Menu>
+		<Task_Polygons:GraphControl Name="myGC"/>
+	</DockPanel>
+</Window>

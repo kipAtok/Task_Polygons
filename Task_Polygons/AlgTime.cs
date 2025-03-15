@@ -83,7 +83,7 @@ namespace Task_Polygons
                 i1++;
             }
 
-            return (int)(DateTime.Now - tic).TotalMilliseconds;
+            return (int)(DateTime.Now - tic).TotalMicroseconds;
         }
 
         private static double Cos(Shape shape1, Shape shape2, Shape shape3)
@@ -156,7 +156,7 @@ namespace Task_Polygons
                 }
             }
 
-            return (int)(DateTime.Now - tic).TotalMilliseconds;
+            return (int)(DateTime.Now - tic).TotalMicroseconds;
         }
 
         private static Shape[] MakeShapes(int shapeCount)

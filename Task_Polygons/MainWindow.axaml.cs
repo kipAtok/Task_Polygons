@@ -8,6 +8,7 @@ namespace Task_Polygons
     public partial class MainWindow : Window
     {
         private bool _pointerPressedInMenu;
+        private GraphWindow _graphWindow; 
 
         public MainWindow()
         {
@@ -66,7 +67,24 @@ namespace Task_Polygons
 
         private void Menu_DrawGraph(object sender, PointerPressedEventArgs e)
         {
-            // TODO
+            if (_graphWindow == null)
+            {
+                _graphWindow = new GraphWindow();
+                _graphWindow.Show();
+            }
+            else if (!_graphWindow.IsVisible)
+            {
+                _graphWindow.Show();
+            }
+        }
+
+        private void Window_Closing(object sender, WindowClosingEventArgs e)
+        {
+            if (_graphWindow != null)
+            {
+                _graphWindow.MainWindowClosing();
+                _graphWindow.Close();
+            }
         }
     }
 }

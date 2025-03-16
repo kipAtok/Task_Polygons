@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using System.Diagnostics;
 
 namespace Task_Polygons
 {
@@ -16,8 +17,6 @@ namespace Task_Polygons
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();
-                var GraphWindow = new GraphWindow();
-                GraphWindow.Show();
             }
 
             base.OnFrameworkInitializationCompleted();

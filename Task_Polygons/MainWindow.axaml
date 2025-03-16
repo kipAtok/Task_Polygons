@@ -8,7 +8,8 @@
         Title="Polygons"
 		PointerPressed="Window_PointerPressed"
 		PointerMoved="Window_PointerMoved"
-		PointerReleased="Window_PointerReleased">
+		PointerReleased="Window_PointerReleased"
+		Closing="Window_Closing">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top"
 			  PointerPressed="Menu_PointerPressed"

@@ -5,7 +5,8 @@
 		xmlns:Task_Polygons="clr-namespace:Task_Polygons"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.GraphWindow"
-        Title="Algorithms graph">
+        Title="Algorithms graph"
+		Closing="GraphWindow_Closing">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top"
 			  Background="LimeGreen">

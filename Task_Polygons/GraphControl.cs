@@ -11,7 +11,7 @@ namespace Task_Polygons
         private bool _marking;
         private int _topLeftX, _topLeftY, _width, _height;
         private int _step;
-        private int _pointCount;
+        private int _defenitionCount, _jarvisCount;
         private Point[] _defenitionPoints, _jarvisPoints;
 
         public GraphControl()
@@ -23,17 +23,16 @@ namespace Task_Polygons
             _width = 600;
             _height = 600;
 
-            _step = 25;
+            _step = 10;
 
-            int defenitionCount = 0;
+            _defenitionCount = 0;
             for (int i = 0; AlgTime.DefenitionTime(3 + i * _step) / 100 < _height; i++)
             {
-                defenitionCount++;
+                _defenitionCount++;
             }
+            _defenitionCount = Math.Min(_defenitionCount, _width / _step);
 
-            int jarvisCount = _width / _step;
-
-            _pointCount = Math.Min(defenitionCount, jarvisCount);
+            _jarvisCount = _width / _step;
 
             MakeGraph();
         }
@@ -57,21 +56,44 @@ namespace Task_Polygons
 
         private void MakeGraph()
         {
-            Point[] defenitionPoints = new Point[_pointCount];
-            Point[] jarvisPoints = new Point[_pointCount];
+            int minCount = Math.Min(_defenitionCount, _jarvisCount);
+
+            Point[] defenitionPoints = new Point[_defenitionCount];
+            Point[] jarvisPoints = new Point[_jarvisCount];
 
             int defenitionX, defenitionY, jarvisX, jarvisY;
 
-            for (int shapeCount = 3; shapeCount < _pointCount * _step; shapeCount += _step)
+            for (int shapeCount = 3; shapeCount < minCount * _step; shapeCount += _step)
             {
-                jarvisX = _topLeftX - 3 + shapeCount;
-                jarvisY = _topLeftY + _height - AlgTime.JarvisTime(shapeCount) / 100;
-
                 defenitionX = _topLeftX - 3 + shapeCount;
                 defenitionY = _topLeftY + _height - AlgTime.DefenitionTime(shapeCount) / 100;
 
+                jarvisX = _topLeftX - 3 + shapeCount;
+                jarvisY = _topLeftY + _height - AlgTime.JarvisTime(shapeCount) / 100;
+
                 defenitionPoints[(shapeCount - 3) / _step] = new Point(defenitionX, defenitionY);
                 jarvisPoints[(shapeCount - 3) / _step] = new Point(jarvisX, jarvisY);
+            }
+
+            if (minCount == _defenitionCount)
+            {
+                for (int shapeCount = 3 + _defenitionCount * _step; shapeCount < _jarvisCount * _step; shapeCount += _step) 
+                {
+                    jarvisX = _topLeftX - 3 + shapeCount;
+                    jarvisY = _topLeftY + _height - AlgTime.JarvisTime(shapeCount) / 100;
+
+                    jarvisPoints[(shapeCount - 3) / _step] = new Point(jarvisX, jarvisY);
+                }
+            }
+            else
+            {
+                for (int shapeCount = 3 + _jarvisCount * _step; shapeCount < _defenitionCount * _step; shapeCount += _step)
+                {
+                    defenitionX = _topLeftX - 3 + shapeCount;
+                    defenitionY = _topLeftY + _height - AlgTime.DefenitionTime(shapeCount) / 100;
+
+                    defenitionPoints[(shapeCount - 3) / _step] = new Point(defenitionX, defenitionY);
+                }
             }
 
             _defenitionPoints = defenitionPoints;

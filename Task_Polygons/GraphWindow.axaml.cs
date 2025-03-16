@@ -7,9 +7,16 @@ namespace Task_Polygons
 {
     public partial class GraphWindow : Window
     {
+        private bool _mainWindowClosing;
+
         public GraphWindow()
         {
             InitializeComponent();
+        }
+
+        public void MainWindowClosing()
+        {
+            _mainWindowClosing = true;
         }
 
         private void Menu_RefreshGraph(object sender, PointerPressedEventArgs e)
@@ -22,6 +29,15 @@ namespace Task_Polygons
         {
             GraphControl gc = this.Find<GraphControl>("myGC");
             gc.SwitchMarking();
+        }
+
+        private void GraphWindow_Closing(object sender, WindowClosingEventArgs e)
+        {
+            if (!_mainWindowClosing)
+            {
+                ((Window)sender).Hide();
+                e.Cancel = true;
+            }
         }
     }
 }

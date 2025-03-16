@@ -9,7 +9,8 @@
 		PointerPressed="Window_PointerPressed"
 		PointerMoved="Window_PointerMoved"
 		PointerReleased="Window_PointerReleased"
-		Closing="Window_Closing">
+		Closing="Window_Closing"
+		WindowStartupLocation="CenterScreen">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top"
 			  PointerPressed="Menu_PointerPressed"
@@ -19,9 +20,12 @@
 					  Foreground="Black">
 				<ListBox Name="ShapeTypes" SelectionChanged="Menu_ShapeTypeChanged"/>
 			</MenuItem>
-			<MenuItem Header="Algorithms graph"
-					  Foreground="Black"
-					  PointerPressed="Menu_DrawGraph">
+			<MenuItem Header="Algorithms"
+					  Foreground="Black">
+				<ListBox Name="DrawShellAlgs" SelectionChanged="Menu_DrawShellAlgChanged"/>
+				<Separator/>
+				<Label Content="Algorithms efficiency graph"
+					   PointerPressed="Menu_DrawGraph"/>
 			</MenuItem>
 		</Menu>
 		<Task_Polygons:CustomControl Name="myCC"/>

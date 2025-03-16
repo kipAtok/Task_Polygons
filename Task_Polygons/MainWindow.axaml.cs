@@ -13,8 +13,12 @@ namespace Task_Polygons
         public MainWindow()
         {
             InitializeComponent();
+
             ShapeTypes.ItemsSource = new string[] {"Circle", "Square", "Triangle"};
             ShapeTypes.SelectedIndex = 0;
+
+            DrawShellAlgs.ItemsSource = new string[] {"Defenition", "Jarvis"};
+            DrawShellAlgs.SelectedIndex = 1;
         }
 
         private void Window_PointerPressed(object sender, PointerPressedEventArgs e)
@@ -63,6 +67,12 @@ namespace Task_Polygons
         {
             CustomControl cc = this.Find<CustomControl>("myCC");
             cc.ChangeShapeType(e.AddedItems[0].ToString());
+        }
+
+        private void Menu_DrawShellAlgChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CustomControl cc = this.Find<CustomControl>("myCC");
+            cc.ChangeDrawShellAlg(e.AddedItems[0].ToString());
         }
 
         private void Menu_DrawGraph(object sender, PointerPressedEventArgs e)

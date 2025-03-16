@@ -31,7 +31,7 @@ namespace Task_Polygons
             gc.SwitchMarking();
         }
 
-        private void GraphWindow_Closing(object sender, WindowClosingEventArgs e)
+        private void Window_Closing(object sender, WindowClosingEventArgs e)
         {
             if (!_mainWindowClosing)
             {

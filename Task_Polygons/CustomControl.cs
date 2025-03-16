@@ -10,16 +10,19 @@ namespace Task_Polygons
 {
     public class CustomControl : UserControl
     {
+        private delegate void DrawShellDelegate(DrawingContext drawingContext);
+
         private int _x, _y;
         private string _shapeType;
         private Pen _pen = new Pen(Brushes.Green);
+        private DrawShellDelegate DrawShell;
         private List<Shape> _shapes = [];
 
         public override void Render(DrawingContext drawingContext)
         {
             if (_shapes.Count >= 3)
             {
-                DrawShellJarvis(drawingContext);
+                DrawShell(drawingContext);
             }
 
             foreach (var shape in _shapes)
@@ -59,7 +62,7 @@ namespace Task_Polygons
 
             if (_shapes.Count >= 3)
             {
-                DrawShellJarvis(null);
+                DrawShell(null);
                 if (!_shapes.Last().IsShell)
                 {
                     foreach (var shape in _shapes)
@@ -133,6 +136,95 @@ namespace Task_Polygons
         public void ChangeShapeType(string shapeType)
         {
             _shapeType = shapeType;
+        }
+
+        public void ChangeDrawShellAlg(string drawShellAlg)
+        {
+            if (drawShellAlg == "Defenition")
+            {
+                DrawShell = new DrawShellDelegate(DrawShellDefenition);
+            }
+            else if (drawShellAlg == "Jarvis")
+            {
+                DrawShell = new DrawShellDelegate(DrawShellJarvis);
+            }
+        }
+
+        private void DrawShellDefenition(DrawingContext drawingContext)
+        {
+            int i1 = 0, i2, i3;
+            double k, b;
+            bool above, below;
+
+            foreach (var shape in _shapes)
+            {
+                shape.IsShell = false;
+            }
+            foreach (var shape1 in _shapes)
+            {
+                i2 = 0;
+
+                foreach (var shape2 in _shapes)
+                {
+                    if (i2 <= i1)
+                    {
+                        i2++;
+                        continue;
+                    }
+
+                    i3 = 0;
+                    above = false;
+                    below = false;
+
+                    foreach (var shape3 in _shapes)
+                    {
+                        if (i3 != i1 && i3 != i2)
+                        {
+                            if (shape1.X != shape2.X)
+                            {
+                                k = (double)(shape2.Y - shape1.Y) / (shape2.X - shape1.X);
+                                b = shape1.Y - shape1.X * k;
+
+                                if (shape3.Y < k * shape3.X + b)
+                                {
+                                    above = true;
+                                }
+                                else if (shape3.Y > k * shape3.X + b)
+                                {
+                                    below = true;
+                                }
+                            }
+                            else
+                            {
+                                if (shape3.X < shape1.X)
+                                {
+                                    above = true;
+                                }
+                                else if (shape3.X > shape1.X)
+                                {
+                                    below = true;
+                                }
+                            }
+                        }
+
+                        i3++;
+                    }
+                    if (above != below)
+                    {
+                        shape1.IsShell = true;
+                        shape2.IsShell = true;
+
+                        if (drawingContext != null)
+                        {
+                            drawingContext.DrawLine(_pen, new Point(shape1.X, shape1.Y), new Point(shape2.X, shape2.Y));
+                        }
+                    }
+
+                    i2++;
+                }
+
+                i1++;
+            }
         }
 
         private double Cos(Shape shape1, Shape shape2, Shape shape3)

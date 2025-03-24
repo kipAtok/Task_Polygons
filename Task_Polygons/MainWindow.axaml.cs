@@ -98,6 +98,7 @@ namespace Task_Polygons
                 if (_radiusWindow == null)
                 {
                     _radiusWindow = new RadiusWindow();
+                    _radiusWindow.RC += UpdateRadius;
                     _radiusWindow.Show();
                 }
                 else if (!_radiusWindow.IsVisible)
@@ -105,6 +106,13 @@ namespace Task_Polygons
                     _radiusWindow.Show();
                 }
             }
+        }
+
+        private void UpdateRadius(object sender, EventArgs e)
+        {
+            Shape.SetRadius(((RadiusEventArgs)e).Radius);
+            InvalidateVisual();
+            Debug.WriteLine(DateTime.Now.TimeOfDay);
         }
 
         private void Window_Closing(object sender, WindowClosingEventArgs e)

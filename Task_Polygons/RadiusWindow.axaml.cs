@@ -11,6 +11,8 @@ public partial class RadiusWindow : Window
 {
     private bool _mainWindowClosing;
 
+    public event RadiusChangedHandler RC;
+
     public RadiusWindow()
     {
         InitializeComponent();
@@ -33,6 +35,9 @@ public partial class RadiusWindow : Window
 
     private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
-        (int)((Slider)sender).Value);
+        if (RC != null)
+        {
+            RC(this, new RadiusEventArgs((int)e.NewValue));
+        }
     }
 }

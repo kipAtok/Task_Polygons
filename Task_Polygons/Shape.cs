@@ -47,7 +47,7 @@ namespace Task_Polygons
             _y += y;
         }
 
-        public static void Resize(int r)
+        public static void SetRadius(int r)
         {
             _r = r;
         }

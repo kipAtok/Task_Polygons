@@ -1,38 +1,31 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Task_Polygons
 {
-    public class GraphControl: UserControl
+    public class GraphControl : UserControl
     {
         private bool _marking;
         private int _topLeftX, _topLeftY, _width, _height;
-        private int _step;
-        private int _defenitionCount, _jarvisCount;
-        private Point[] _defenitionPoints, _jarvisPoints;
+        private int _countStep, _graphStep;
+        private int _jarvisCount;
+        private Point[] _jarvisPoints;
 
         public GraphControl()
         {
-            AlgTime.DefenitionTime(0);
+            AlgTime.JarvisTime(3);
 
             _topLeftX = 50;
             _topLeftY = 50;
-            _width = 600;
-            _height = 600;
+            _width = 1000;
+            _height = 400;
 
-            _step = 10;
+            _countStep = 50;
+            _graphStep = 50;
 
-            _defenitionCount = 0;
-            for (int i = 0; AlgTime.DefenitionTime(3 + i * _step) / 100 < _height; i++)
-            {
-                _defenitionCount++;
-            }
-            _defenitionCount = Math.Min(_defenitionCount, _width / _step);
-
-            _jarvisCount = _width / _step;
+            _jarvisCount = 15;
 
             MakeGraph();
         }
@@ -56,54 +49,25 @@ namespace Task_Polygons
 
         private void MakeGraph()
         {
-            int minCount = Math.Min(_defenitionCount, _jarvisCount);
+            Point[] jarvisPoints = new Point[_jarvisCount + 1];
 
-            Point[] defenitionPoints = new Point[_defenitionCount];
-            Point[] jarvisPoints = new Point[_jarvisCount];
+            int jarvisX, jarvisY;
 
-            int defenitionX, defenitionY, jarvisX, jarvisY;
-
-            for (int shapeCount = 3; shapeCount < minCount * _step; shapeCount += _step)
+            for (int i = 1; i < _jarvisCount + 1; i++)
             {
-                defenitionX = _topLeftX - 3 + shapeCount;
-                defenitionY = _topLeftY + _height - AlgTime.DefenitionTime(shapeCount) / 100;
+                jarvisX = _topLeftX + 1 + _graphStep * i;
+                jarvisY = _topLeftY + _height - 1 - AlgTime.JarvisTime((i + 1) * _countStep) / 10;
 
-                jarvisX = _topLeftX - 3 + shapeCount;
-                jarvisY = _topLeftY + _height - AlgTime.JarvisTime(shapeCount) / 100;
-
-                defenitionPoints[(shapeCount - 3) / _step] = new Point(defenitionX, defenitionY);
-                jarvisPoints[(shapeCount - 3) / _step] = new Point(jarvisX, jarvisY);
+                jarvisPoints[i] = new Point(jarvisX, jarvisY);
             }
+            jarvisPoints[0] = new Point(_topLeftX + 1, _topLeftY + _height - 1);
 
-            if (minCount == _defenitionCount)
-            {
-                for (int shapeCount = 3 + _defenitionCount * _step; shapeCount < _jarvisCount * _step; shapeCount += _step) 
-                {
-                    jarvisX = _topLeftX - 3 + shapeCount;
-                    jarvisY = _topLeftY + _height - AlgTime.JarvisTime(shapeCount) / 100;
-
-                    jarvisPoints[(shapeCount - 3) / _step] = new Point(jarvisX, jarvisY);
-                }
-            }
-            else
-            {
-                for (int shapeCount = 3 + _jarvisCount * _step; shapeCount < _defenitionCount * _step; shapeCount += _step)
-                {
-                    defenitionX = _topLeftX - 3 + shapeCount;
-                    defenitionY = _topLeftY + _height - AlgTime.DefenitionTime(shapeCount) / 100;
-
-                    defenitionPoints[(shapeCount - 3) / _step] = new Point(defenitionX, defenitionY);
-                }
-            }
-
-            _defenitionPoints = defenitionPoints;
             _jarvisPoints = jarvisPoints;
         }
 
         private void DrawGraph(DrawingContext drawingContext)
         {
             Pen linePen = new Pen(new SolidColorBrush(Colors.White));
-            Pen defenitionPen = new Pen(new SolidColorBrush(Colors.Red));
             Pen jarvisPen = new Pen(new SolidColorBrush(Colors.Yellow));
 
             if (_marking)
@@ -112,7 +76,7 @@ namespace Task_Polygons
                 {
                     drawingContext.DrawLine(linePen, new Point(point.X, _topLeftY), new Point(point.X, _topLeftY + _height));
                 }
-            } 
+            }
             else
             {
                 drawingContext.DrawLine(linePen, new Point(_topLeftX, _topLeftY), new Point(_topLeftX, _topLeftY + _height));
@@ -120,10 +84,8 @@ namespace Task_Polygons
 
             drawingContext.DrawLine(linePen, new Point(_topLeftX, _topLeftY + _height), new Point(_topLeftX + _width, _topLeftY + _height));
 
-            Geometry defenitionGeometry = new PolylineGeometry(_defenitionPoints, false);
             Geometry jarvisGeometry = new PolylineGeometry(_jarvisPoints, false);
 
-            drawingContext.DrawGeometry(null, defenitionPen, defenitionGeometry);
             drawingContext.DrawGeometry(null, jarvisPen, jarvisGeometry);
         }
     }

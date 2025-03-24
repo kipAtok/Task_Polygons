@@ -150,6 +150,12 @@ namespace Task_Polygons
             }
         }
 
+        public void UpdateRadius(int r)
+        {
+            Shape.SetRadius(r);
+            InvalidateVisual();
+        }
+
         private void DrawShellDefenition(DrawingContext drawingContext)
         {
             int i1 = 0, i2, i3;

@@ -18,11 +18,15 @@ namespace Task_Polygons
 
         public override void Draw(DrawingContext drawingContext)
         {
-            Brush brush = new SolidColorBrush(Colors.Green);
-            Point[] points = 
-            [
-                _leftPoint, _topPoint, _rightPoint, _leftPoint
-            ];
+            Brush brush = new SolidColorBrush(_c);
+
+            double side = _r * Math.Sqrt(3);
+            _leftPoint = new Point(_x - side / 2, _y + _r / 2);
+            _topPoint = new Point(_x, _y - _r);
+            _rightPoint = new Point(_x + side / 2, _y + _r / 2);
+
+            Point[] points = [_leftPoint, _topPoint, _rightPoint, _leftPoint];
+
             PolylineGeometry geometry = new PolylineGeometry(points, true);
 
             drawingContext.DrawGeometry(brush, null, geometry);
@@ -31,10 +35,6 @@ namespace Task_Polygons
         public override void Move(int x, int y)
         {
             base.Move(x, y);
-            double side = _r * Math.Sqrt(3);
-            _leftPoint = new Point(_x - side / 2, _y + _r / 2);
-            _topPoint = new Point(_x, _y - _r);
-            _rightPoint = new Point(_x + side / 2, _y + _r / 2);
         }
 
         public override bool IsInside(int x, int y)

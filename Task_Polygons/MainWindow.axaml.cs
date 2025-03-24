@@ -98,21 +98,29 @@ namespace Task_Polygons
                 if (_radiusWindow == null)
                 {
                     _radiusWindow = new RadiusWindow();
-                    _radiusWindow.RC += UpdateRadius;
+                    _radiusWindow.RC += Window_UpdateRadius;
                     _radiusWindow.Show();
                 }
                 else if (!_radiusWindow.IsVisible)
                 {
                     _radiusWindow.Show();
                 }
+                else if (!_radiusWindow.IsActive)
+                {
+                    _radiusWindow.Activate();
+                } 
             }
+            else if (Settings.SelectedItem == "Color")
+            {
+
+            }
+            Settings.SelectedIndex = -1;
         }
 
-        private void UpdateRadius(object sender, EventArgs e)
+        private void Window_UpdateRadius(object sender, EventArgs e)
         {
-            Shape.SetRadius(((RadiusEventArgs)e).Radius);
-            InvalidateVisual();
-            Debug.WriteLine(DateTime.Now.TimeOfDay);
+            CustomControl cc = this.Find<CustomControl>("myCC");
+            cc.UpdateRadius(((RadiusEventArgs)e).Radius);
         }
 
         private void Window_Closing(object sender, WindowClosingEventArgs e)

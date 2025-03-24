@@ -9,6 +9,7 @@ namespace Task_Polygons
     {
         private bool _pointerPressedInMenu;
         private GraphWindow _graphWindow; 
+        private RadiusWindow _radiusWindow;
 
         public MainWindow()
         {
@@ -19,6 +20,8 @@ namespace Task_Polygons
 
             DrawShellAlgs.ItemsSource = new string[] {"Defenition", "Jarvis"};
             DrawShellAlgs.SelectedIndex = 1;
+
+            Settings.ItemsSource = new string[] {"Radius", "Color"};
         }
 
         private void Window_PointerPressed(object sender, PointerPressedEventArgs e)
@@ -88,12 +91,31 @@ namespace Task_Polygons
             }
         }
 
+        private void Menu_SettingSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (Settings.SelectedItem == "Radius")
+            {
+                if (_radiusWindow == null)
+                {
+                    _radiusWindow = new RadiusWindow();
+                    _radiusWindow.Show();
+                }
+                else if (!_radiusWindow.IsVisible)
+                {
+                    _radiusWindow.Show();
+                }
+            }
+        }
+
         private void Window_Closing(object sender, WindowClosingEventArgs e)
         {
             if (_graphWindow != null)
             {
                 _graphWindow.MainWindowClosing();
-                _graphWindow.Close();
+            }
+            if (_radiusWindow != null)
+            {
+                _radiusWindow.MainWindowClosing();
             }
         }
     }

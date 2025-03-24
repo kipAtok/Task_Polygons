@@ -46,6 +46,11 @@ namespace Task_Polygons
             _x += x;
             _y += y;
         }
+
+        public static void Resize(int r)
+        {
+            _r = r;
+        }
     }
 }
 

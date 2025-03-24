@@ -27,6 +27,10 @@
 				<Label Content="Algorithms efficiency graph"
 					   PointerPressed="Menu_DrawGraph"/>
 			</MenuItem>
+			<MenuItem Header="Settings"
+					  Foreground="Black">
+				<ListBox Name="Settings" SelectionChanged="Menu_SettingSelected"/>
+			</MenuItem>
 		</Menu>
 		<Task_Polygons:CustomControl Name="myCC"/>
 	</DockPanel>

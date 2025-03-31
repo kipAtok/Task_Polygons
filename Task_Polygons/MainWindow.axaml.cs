@@ -117,15 +117,11 @@ namespace Task_Polygons
                 {
                     _colorWindow = new ColorWindow();
                     _colorWindow.ColC += Window_UpdateColor;
-                    _colorWindow.Show();
+                    _colorWindow.ShowDialog(this);
                 }
                 else if (!_colorWindow.IsVisible)
                 {
-                    _colorWindow.Show();
-                }
-                else if (!_colorWindow.IsActive)
-                {
-                    _colorWindow.Activate();
+                    _colorWindow.ShowDialog(this);
                 }
             }
             Settings.SelectedIndex = -1;
@@ -152,10 +148,6 @@ namespace Task_Polygons
             if (_radiusWindow != null)
             {
                 _radiusWindow.MainWindowClosing();
-            }
-            if (_colorWindow != null)
-            {
-                _colorWindow.MainWindowClosing();
             }
         }
     }

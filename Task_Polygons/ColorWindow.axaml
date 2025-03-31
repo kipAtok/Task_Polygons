@@ -7,6 +7,15 @@
         Title="Color setting"
 		Width="600" Height="100"
 		Closing="Window_Closing">
-	<ColorPicker ColorChanged="ColorPicker_ColorChanged"
-				 Color="Green"/>
+	<DockPanel>
+		<ColorPicker DockPanel.Dock="Top"
+					 ColorChanged="ColorPicker_ColorChanged"
+					 Color="Green"/>
+		<Grid ColumnDefinitions="300,300">
+			<Button Grid.Column="0"
+					HorizontalAlignment="Center"/>
+			<Button Grid.Column="1"
+					HorizontalAlignment="Center"/>
+		</Grid>
+	</DockPanel>
 </Window>

@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using System.Diagnostics;
 
 namespace Task_Polygons;
 
@@ -13,12 +14,6 @@ public partial class ColorWindow : Window
     public ColorWindow()
     {
         InitializeComponent();
-    }
-
-    public void MainWindowClosing()
-    {
-        _mainWindowClosing = true;
-        Close();
     }
 
     private void Window_Closing(object sender, WindowClosingEventArgs e)

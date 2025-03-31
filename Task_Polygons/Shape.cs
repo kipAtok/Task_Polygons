@@ -7,7 +7,7 @@ namespace Task_Polygons
     {
         protected int _x, _y;
         protected static int _r;
-        protected static Color _c;
+        protected static Color _color;
         public bool IsMoving { get; set; }
         public bool IsShell { get; set; } = true;
 
@@ -36,7 +36,7 @@ namespace Task_Polygons
         static Shape()
         {
             _r = 25;
-            _c = Colors.Green;
+            _color = Colors.Green;
         }
 
         public abstract void Draw(DrawingContext drawingContext);
@@ -52,6 +52,11 @@ namespace Task_Polygons
         public static void SetRadius(int r)
         {
             _r = r;
+        }
+
+        public static void SetColor(Color color)
+        {
+            _color = color;
         }
     }
 }

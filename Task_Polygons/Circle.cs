@@ -9,7 +9,7 @@ namespace Task_Polygons
 
         public override void Draw(DrawingContext drawingContext)
         {
-            Brush brush = new SolidColorBrush(_c);
+            Brush brush = new SolidColorBrush(_color);
 
             drawingContext.DrawEllipse(brush, null, new Point(_x, _y), _r, _r);
         }

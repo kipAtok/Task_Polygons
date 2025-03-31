@@ -10,7 +10,7 @@ namespace Task_Polygons
 
         public override void Draw(DrawingContext drawingContext)
         {
-            Brush brush = new SolidColorBrush(_c);
+            Brush brush = new SolidColorBrush(_color);
             double side = _r * Math.Sqrt(2);
 
             drawingContext.DrawRectangle(brush, null, new Rect(_x - side / 2, _y - side / 2, side, side));

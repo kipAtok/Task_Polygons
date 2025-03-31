@@ -10,6 +10,7 @@ namespace Task_Polygons
         private bool _pointerPressedInMenu;
         private GraphWindow _graphWindow; 
         private RadiusWindow _radiusWindow;
+        private ColorWindow _colorWindow;
 
         public MainWindow()
         {
@@ -112,7 +113,20 @@ namespace Task_Polygons
             }
             else if (Settings.SelectedItem == "Color")
             {
-
+                if (_colorWindow == null)
+                {
+                    _colorWindow = new ColorWindow();
+                    _colorWindow.ColC += Window_UpdateColor;
+                    _colorWindow.Show();
+                }
+                else if (!_colorWindow.IsVisible)
+                {
+                    _colorWindow.Show();
+                }
+                else if (!_colorWindow.IsActive)
+                {
+                    _colorWindow.Activate();
+                }
             }
             Settings.SelectedIndex = -1;
         }
@@ -121,6 +135,12 @@ namespace Task_Polygons
         {
             CustomControl cc = this.Find<CustomControl>("myCC");
             cc.UpdateRadius(((RadiusEventArgs)e).Radius);
+        }
+
+        private void Window_UpdateColor(object sender, EventArgs e)
+        {
+            CustomControl cc = this.Find<CustomControl>("myCC");
+            cc.UpdateColor(((ColorEventArgs)e).Color);
         }
 
         private void Window_Closing(object sender, WindowClosingEventArgs e)
@@ -132,6 +152,10 @@ namespace Task_Polygons
             if (_radiusWindow != null)
             {
                 _radiusWindow.MainWindowClosing();
+            }
+            if (_colorWindow != null)
+            {
+                _colorWindow.MainWindowClosing();
             }
         }
     }

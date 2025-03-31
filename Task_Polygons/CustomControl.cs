@@ -156,6 +156,13 @@ namespace Task_Polygons
             InvalidateVisual();
         }
 
+        public void UpdateColor(Color color)
+        {
+            Shape.SetColor(color);
+            _pen = new Pen(new SolidColorBrush(color));
+            InvalidateVisual();
+        }
+
         private void DrawShellDefenition(DrawingContext drawingContext)
         {
             int i1 = 0, i2, i3;

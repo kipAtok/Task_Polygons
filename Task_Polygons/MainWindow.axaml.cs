@@ -8,6 +8,7 @@ namespace Task_Polygons
     public partial class MainWindow : Window
     {
         private bool _pointerPressedInMenu;
+        CustomControl _cc;
         private GraphWindow _graphWindow; 
         private RadiusWindow _radiusWindow;
         private ColorWindow _colorWindow;
@@ -15,6 +16,8 @@ namespace Task_Polygons
         public MainWindow()
         {
             InitializeComponent();
+
+            _cc = this.Find<CustomControl>("myCC");
 
             ShapeTypes.ItemsSource = new string[] {"Circle", "Square", "Triangle"};
             ShapeTypes.SelectedIndex = 0;
@@ -29,32 +32,29 @@ namespace Task_Polygons
         {
             if (!_pointerPressedInMenu)
             {
-                CustomControl cc = this.Find<CustomControl>("myCC");
-                int x = (int)e.GetPosition(cc).X, y = (int)e.GetPosition(cc).Y;
-                if (e.GetCurrentPoint(cc).Properties.IsRightButtonPressed)
+                int x = (int)e.GetPosition(_cc).X, y = (int)e.GetPosition(_cc).Y;
+                if (e.GetCurrentPoint(_cc).Properties.IsRightButtonPressed)
                 {
-                    cc.RightClick(x, y);
+                    _cc.RightClick(x, y);
                 }
-                else if (e.GetCurrentPoint(cc).Properties.IsLeftButtonPressed)
+                else if (e.GetCurrentPoint(_cc).Properties.IsLeftButtonPressed)
                 {
-                    cc.LeftClick(x, y);
+                    _cc.LeftClick(x, y);
                 }
             }
         }
 
         private void Window_PointerMoved(object sender, PointerEventArgs e)
         {
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            int x = (int)e.GetPosition(cc).X, y = (int)e.GetPosition(cc).Y;
-            cc.Move(x, y);
+            int x = (int)e.GetPosition(_cc).X, y = (int)e.GetPosition(_cc).Y;
+            _cc.Move(x, y);
         }
 
         private void Window_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
             _pointerPressedInMenu = false;
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            int x = (int)e.GetPosition(cc).X, y = (int)e.GetPosition(cc).Y;
-            cc.Release(x, y);
+            int x = (int)e.GetPosition(_cc).X, y = (int)e.GetPosition(_cc).Y;
+            _cc.Release(x, y);
         }
 
         private void Menu_PointerPressed(object sender, PointerPressedEventArgs e)
@@ -69,14 +69,12 @@ namespace Task_Polygons
 
         private void Menu_ShapeTypeChanged(object sender, SelectionChangedEventArgs e)
         {
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            cc.ChangeShapeType(e.AddedItems[0].ToString());
+            _cc.ChangeShapeType(e.AddedItems[0].ToString());
         }
 
         private void Menu_DrawShellAlgChanged(object sender, SelectionChangedEventArgs e)
         {
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            cc.ChangeDrawShellAlg(e.AddedItems[0].ToString());
+            _cc.ChangeDrawShellAlg(e.AddedItems[0].ToString());
         }
 
         private void Menu_DrawGraph(object sender, PointerPressedEventArgs e)
@@ -129,14 +127,12 @@ namespace Task_Polygons
 
         private void Window_UpdateRadius(object sender, EventArgs e)
         {
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            cc.UpdateRadius(((RadiusEventArgs)e).Radius);
+            _cc.UpdateRadius(((RadiusEventArgs)e).Radius);
         }
 
         private void Window_UpdateColor(object sender, EventArgs e)
         {
-            CustomControl cc = this.Find<CustomControl>("myCC");
-            cc.UpdateColor(((ColorEventArgs)e).Color);
+            _cc.UpdateColor(((ColorEventArgs)e).Color);
         }
 
         private void Window_Closing(object sender, WindowClosingEventArgs e)

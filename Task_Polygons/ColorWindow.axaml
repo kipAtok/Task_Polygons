@@ -2,20 +2,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="100"
         x:Class="Task_Polygons.ColorWindow"
         Title="Color setting"
 		Width="600" Height="100"
 		Closing="Window_Closing">
 	<DockPanel>
-		<ColorPicker DockPanel.Dock="Top"
-					 ColorChanged="ColorPicker_ColorChanged"
+		<ColorPicker Name="ColorPicker"
+					 DockPanel.Dock="Top"
 					 Color="Green"/>
 		<Grid ColumnDefinitions="300,300">
-			<Button Grid.Column="0"
-					HorizontalAlignment="Center"/>
-			<Button Grid.Column="1"
-					HorizontalAlignment="Center"/>
+			<Button Content="Ok"
+					Grid.Column="0"
+					HorizontalAlignment="Center"
+					Click="OkButton_Pressed"/>
+			<Button Content="Cancel" 
+					Grid.Column="1"
+					HorizontalAlignment="Center"
+					Click="CancelButton_Pressed"/>
 		</Grid>
 	</DockPanel>
 </Window>

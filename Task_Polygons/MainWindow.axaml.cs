@@ -8,7 +8,7 @@ namespace Task_Polygons
     public partial class MainWindow : Window
     {
         private bool _pointerPressedInMenu;
-        CustomControl _cc;
+        private CustomControl _cc;
         private GraphWindow _graphWindow; 
         private RadiusWindow _radiusWindow;
         private ColorWindow _colorWindow;
@@ -24,8 +24,6 @@ namespace Task_Polygons
 
             DrawShellAlgs.ItemsSource = new string[] {"Defenition", "Jarvis"};
             DrawShellAlgs.SelectedIndex = 1;
-
-            Settings.ItemsSource = new string[] {"Radius", "Color"};
         }
 
         private void Window_PointerPressed(object sender, PointerPressedEventArgs e)
@@ -88,41 +86,42 @@ namespace Task_Polygons
             {
                 _graphWindow.Show();
             }
+            else if (!_graphWindow.IsActive)
+            {
+                _graphWindow.Activate();
+            }
         }
 
-        private void Menu_SettingSelected(object sender, SelectionChangedEventArgs e)
+        private void Menu_RadiusSettingSelected(object sender, PointerPressedEventArgs e)
         {
-            if (Settings.SelectedItem == "Radius")
+            if (_radiusWindow == null)
             {
-                if (_radiusWindow == null)
-                {
-                    _radiusWindow = new RadiusWindow();
-                    _radiusWindow.RC += Window_UpdateRadius;
-                    _radiusWindow.Show();
-                }
-                else if (!_radiusWindow.IsVisible)
-                {
-                    _radiusWindow.Show();
-                }
-                else if (!_radiusWindow.IsActive)
-                {
-                    _radiusWindow.Activate();
-                } 
+                _radiusWindow = new RadiusWindow();
+                _radiusWindow.RC += Window_UpdateRadius;
+                _radiusWindow.Show();
             }
-            else if (Settings.SelectedItem == "Color")
+            else if (!_radiusWindow.IsVisible)
             {
-                if (_colorWindow == null)
-                {
-                    _colorWindow = new ColorWindow();
-                    _colorWindow.ColC += Window_UpdateColor;
-                    _colorWindow.ShowDialog(this);
-                }
-                else if (!_colorWindow.IsVisible)
-                {
-                    _colorWindow.ShowDialog(this);
-                }
+                _radiusWindow.Show();
             }
-            Settings.SelectedIndex = -1;
+            else if (!_radiusWindow.IsActive)
+            {
+                _radiusWindow.Activate();
+            }
+        }
+
+        private void Menu_ColorSettingSelected(object sender, PointerPressedEventArgs e)
+        {
+            if (_colorWindow == null)
+            {
+                _colorWindow = new ColorWindow();
+                _colorWindow.ColC += Window_UpdateColor;
+                _colorWindow.ShowDialog(this);
+            }
+            else if (!_colorWindow.IsVisible)
+            {
+                _colorWindow.ShowDialog(this);
+            }
         }
 
         private void Window_UpdateRadius(object sender, EventArgs e)

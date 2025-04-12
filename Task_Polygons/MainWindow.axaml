@@ -24,12 +24,15 @@
 					  Foreground="Black">
 				<ListBox Name="DrawShellAlgs" SelectionChanged="Menu_DrawShellAlgChanged"/>
 				<Separator/>
-				<Label Content="Algorithms efficiency graph"
-					   PointerPressed="Menu_DrawGraph"/>
+				<MenuItem Header="Algorithms efficiency graph"
+						  PointerPressed="Menu_DrawGraph"/>
 			</MenuItem>
 			<MenuItem Header="Settings"
 					  Foreground="Black">
-				<ListBox Name="Settings" SelectionChanged="Menu_SettingSelected"/>
+				<MenuItem Header="Radius"
+						  PointerPressed="Menu_RadiusSettingSelected"/>
+				<MenuItem Header="Color"
+						  PointerPressed="Menu_ColorSettingSelected"/>
 			</MenuItem>
 		</Menu>
 		<Task_Polygons:CustomControl Name="myCC"/>

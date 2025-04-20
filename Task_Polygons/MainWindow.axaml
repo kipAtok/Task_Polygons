@@ -16,6 +16,17 @@
 			  PointerPressed="Menu_PointerPressed"
 			  PointerReleased="Menu_PointerReleased"
 			  Background="LimeGreen">
+			<MenuItem Header="File"
+					  Foreground="Black">
+				<MenuItem Header="New"
+						  PointerPressed=""/>
+				<MenuItem Header="Open"
+						  PointerPressed=""/>
+				<MenuItem Header="Save"
+						  PointerPressed=""/>
+				<MenuItem Header="Save As"
+						  PointerPressed=""/>
+			</MenuItem>
 			<MenuItem Header="Shape type"
 					  Foreground="Black">
 				<ListBox Name="ShapeTypes" SelectionChanged="Menu_ShapeTypeChanged"/>

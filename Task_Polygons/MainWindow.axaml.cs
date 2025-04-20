@@ -86,6 +86,10 @@ namespace Task_Polygons
             {
                 _graphWindow.Show();
             }
+            else if (_graphWindow.WindowState == WindowState.Minimized)
+            {
+                _graphWindow.WindowState = WindowState.Normal;
+            }
             else if (!_graphWindow.IsActive)
             {
                 _graphWindow.Activate();
@@ -103,6 +107,10 @@ namespace Task_Polygons
             else if (!_radiusWindow.IsVisible)
             {
                 _radiusWindow.Show();
+            }
+            else if (_radiusWindow.WindowState == WindowState.Minimized)
+            {
+                _radiusWindow.WindowState = WindowState.Normal;
             }
             else if (!_radiusWindow.IsActive)
             {

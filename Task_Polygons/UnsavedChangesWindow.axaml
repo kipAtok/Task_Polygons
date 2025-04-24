@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="200"
+        x:Class="Task_Polygons.UnsavedChangesWindow"
+        Title="Polygons"
+		Width="450" Height="200"
+		WindowStartupLocation="CenterOwner"
+		Closing="Window_Closing">
+	<DockPanel>
+		<Grid DockPanel.Dock="Bottom"
+			  VerticalAlignment="Bottom"
+			  Margin="0, 0, 0, 20"
+			  ColumnDefinitions="*,auto,*">
+			<Button Content="Save"
+					Grid.Column="0"
+					HorizontalAlignment="Center"
+					Click="SaveButton_Pressed"/>
+			<Button Content="Don't Save"
+					Grid.Column="1"
+					Click="DontSaveButton_Pressed"/>
+			<Button Content="Cancel"
+					Grid.Column="2"
+					HorizontalAlignment="Center"
+					Click="CancelButton_Pressed"/>
+		</Grid>
+		<Grid DockPanel.Dock="Top"
+			  RowDefinitions="auto,*">
+			<Label Grid.Row="0"
+				   FontSize="20"
+				   HorizontalAlignment="Center"
+				   Margin="0, 20, 0, 0"
+				   Foreground="LimeGreen">
+				Do you want to save channges you made?
+			</Label>
+			<Label Grid.Row="1"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Center">
+				Your changes will be lost if you don't save them.</Label>
+		</Grid>
+	</DockPanel>
+</Window>

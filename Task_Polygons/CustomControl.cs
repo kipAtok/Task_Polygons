@@ -1,9 +1,10 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace Task_Polygons
@@ -161,6 +162,34 @@ namespace Task_Polygons
             Shape.SetColor(color);
             _pen = new Pen(new SolidColorBrush(color));
             InvalidateVisual();
+        }
+
+        public void SaveState(string path)
+        {
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+
+            SaveInfo saveInfo = new SaveInfo(_shapes, Shape.R, Shape.Color);
+
+            Serializer.Serialize(fs, saveInfo);
+
+            fs.Close();
+        }
+
+        public void LoadState(string path)
+        {
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+            SaveInfo saveInfo = Serializer.Deserialize<SaveInfo>(fs); ;
+
+            _shapes = saveInfo.Shapes;
+            if (_shapes == null)
+            {
+                _shapes = new List<Shape>();
+            }
+            UpdateRadius(saveInfo.R);
+            UpdateColor(saveInfo.Color);
+
+            fs.Close();
         }
 
         private void DrawShellDefenition(DrawingContext drawingContext)

@@ -1,13 +1,24 @@
 ﻿using Avalonia.Media;
-using System.Diagnostics;
+using ProtoBuf;
 
 namespace Task_Polygons
 {
+    [ProtoContract]
+    [ProtoInclude(5, typeof(Circle))]
+    [ProtoInclude(6, typeof(Square))]
+    [ProtoInclude(7, typeof(Triangle))]
     abstract class Shape
     {
-        protected int _x, _y;
+        [ProtoMember(1)]
+        protected int _x;
+        [ProtoMember(2)]
+        protected int _y;
+
+        [ProtoMember(3)]
         protected static int _r;
+        [ProtoMember(4)]
         protected static Color _color;
+
         public bool IsMoving { get; set; }
         public bool IsShell { get; set; } = true;
 
@@ -24,6 +35,22 @@ namespace Task_Polygons
             get
             {
                 return _y;
+            }
+        }
+
+        public static int R
+        {
+            get
+            {
+                return _r;
+            }
+        }
+
+        public static Color Color
+        {
+            get
+            {
+                return _color;
             }
         }
 

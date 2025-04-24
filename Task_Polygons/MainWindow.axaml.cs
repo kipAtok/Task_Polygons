@@ -1,7 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Platform.Storage;
 using System;
-using System.Diagnostics;
+using System.IO;
 
 namespace Task_Polygons
 {
@@ -12,6 +13,8 @@ namespace Task_Polygons
         private GraphWindow _graphWindow; 
         private RadiusWindow _radiusWindow;
         private ColorWindow _colorWindow;
+        private string _currentFilePath;
+        private bool _saved;
 
         public MainWindow()
         {
@@ -24,6 +27,8 @@ namespace Task_Polygons
 
             DrawShellAlgs.ItemsSource = new string[] {"Defenition", "Jarvis"};
             DrawShellAlgs.SelectedIndex = 1;
+
+            _saved = true;
         }
 
         private void Window_PointerPressed(object sender, PointerPressedEventArgs e)
@@ -39,6 +44,8 @@ namespace Task_Polygons
                 {
                     _cc.LeftClick(x, y);
                 }
+
+                _saved = false;
             }
         }
 
@@ -135,15 +142,90 @@ namespace Task_Polygons
         private void Window_UpdateRadius(object sender, EventArgs e)
         {
             _cc.UpdateRadius(((RadiusEventArgs)e).Radius);
+            _saved = false;
         }
 
         private void Window_UpdateColor(object sender, EventArgs e)
         {
             _cc.UpdateColor(((ColorEventArgs)e).Color);
+            _saved = false;
+        }
+
+        private async void Menu_New(object sender, PointerPressedEventArgs e)
+        {
+            if (!_saved)
+            {
+                AskToSave();
+            }
+
+            _currentFilePath = null;
+            _saved = true;
+        }
+
+        private async void Menu_Open(object sender, PointerPressedEventArgs e)
+        {
+            if (!_saved)
+            {
+                AskToSave();
+            }
+
+            var topLevel = GetTopLevel(this);
+
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Open File",
+                AllowMultiple = false
+            });
+
+            if (files.Count >= 1)
+            {
+                _cc.LoadState(files[0].Path.AbsolutePath.ToString());
+                _currentFilePath = files[0].Path.AbsolutePath.ToString();
+            }
+        }
+
+        private async void Menu_Save(object sender, PointerPressedEventArgs e)
+        {
+            if (_currentFilePath == null)
+            {
+                Menu_SaveAs(sender, e);
+            }
+            else
+            {
+                _cc.SaveState(_currentFilePath);
+                _saved = true;
+            }
+        }
+
+        private async void Menu_SaveAs(object sender, PointerPressedEventArgs e)
+        {
+            var topLevel = GetTopLevel(this);
+
+            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = "Save As"
+            });
+
+            if (file is not null)
+            {
+                _cc.SaveState(file.Path.AbsolutePath.ToString());
+                _currentFilePath = file.Path.AbsolutePath.ToString();
+                _saved = true;
+            }
+        }
+
+        private void Menu_Exit(object sender, PointerPressedEventArgs e)
+        {
+            Close();
         }
 
         private void Window_Closing(object sender, WindowClosingEventArgs e)
         {
+            if (!_saved)
+            {
+                AskToSave();
+            }
+
             if (_graphWindow != null)
             {
                 _graphWindow.MainWindowClosing();
@@ -152,6 +234,12 @@ namespace Task_Polygons
             {
                 _radiusWindow.MainWindowClosing();
             }
+        }
+
+        private void AskToSave()
+        {
+            UnsavedChangesWindow unsavedChangesWindow = new UnsavedChangesWindow();
+            unsavedChangesWindow.ShowDialog(this);
         }
     }
 }

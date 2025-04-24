@@ -18,14 +18,19 @@
 			  Background="LimeGreen">
 			<MenuItem Header="File"
 					  Foreground="Black">
-				<MenuItem Header="New"
-						  PointerPressed=""/>
-				<MenuItem Header="Open"
-						  PointerPressed=""/>
+				<MenuItem Header="New File..."
+						  PointerPressed="Menu_New"/>
+				<Separator/>
+				<MenuItem Header="Open File..."
+						  PointerPressed="Menu_Open"/>
+				<Separator/>
 				<MenuItem Header="Save"
-						  PointerPressed=""/>
-				<MenuItem Header="Save As"
-						  PointerPressed=""/>
+						  PointerPressed="Menu_Save"/>
+				<MenuItem Header="Save As..."
+						  PointerPressed="Menu_SaveAs"/>
+				<Separator/>
+				<MenuItem Header="Exit"
+						  PointerPressed="Menu_Exit"/>
 			</MenuItem>
 			<MenuItem Header="Shape type"
 					  Foreground="Black">

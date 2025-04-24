@@ -1,9 +1,11 @@
 ﻿using Avalonia;
 using Avalonia.Media;
+using ProtoBuf;
 using System;
 
 namespace Task_Polygons
 {
+    [ProtoContract(SkipConstructor = true)]
     sealed class Square : Shape
     {
         public Square(int x, int y) : base(x, y) { }

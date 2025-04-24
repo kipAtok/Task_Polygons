@@ -10,7 +10,8 @@
 	<DockPanel>
 		<ColorPicker Name="ColorPicker"
 					 DockPanel.Dock="Top"
-					 Color="Green"/>
+					 Color="Green"
+					 Margin="10"/>
 		<Grid ColumnDefinitions="300,300">
 			<Button Content="Ok"
 					Grid.Column="0"

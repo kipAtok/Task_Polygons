@@ -1,8 +1,10 @@
 ﻿using Avalonia;
 using Avalonia.Media;
+using ProtoBuf;
 
 namespace Task_Polygons
 {
+    [ProtoContract(SkipConstructor=true)]
     sealed class Circle : Shape
     {
         public Circle(int x, int y) : base(x, y) { }

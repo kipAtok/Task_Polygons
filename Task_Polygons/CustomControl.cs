@@ -153,13 +153,13 @@ namespace Task_Polygons
 
         public void UpdateRadius(int r)
         {
-            Shape.SetRadius(r);
+            Shape.R = r;
             InvalidateVisual();
         }
 
         public void UpdateColor(Color color)
         {
-            Shape.SetColor(color);
+            Shape.Color = color;
             _pen = new Pen(new SolidColorBrush(color));
             InvalidateVisual();
         }
@@ -190,6 +190,13 @@ namespace Task_Polygons
             UpdateColor(saveInfo.Color);
 
             fs.Close();
+        }
+
+        public void Clear()
+        {
+            _shapes = new List<Shape>();
+            UpdateRadius(25);
+            UpdateColor(Colors.Green);
         }
 
         private void DrawShellDefenition(DrawingContext drawingContext)

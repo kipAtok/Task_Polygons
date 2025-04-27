@@ -44,6 +44,11 @@ namespace Task_Polygons
             {
                 return _r;
             }
+
+            set
+            {
+                _r = value;
+            }
         }
 
         public static Color Color
@@ -51,6 +56,11 @@ namespace Task_Polygons
             get
             {
                 return _color;
+            }
+
+            set
+            {
+                _color = value;
             }
         }
 
@@ -74,16 +84,6 @@ namespace Task_Polygons
         {
             _x += x;
             _y += y;
-        }
-
-        public static void SetRadius(int r)
-        {
-            _r = r;
-        }
-
-        public static void SetColor(Color color)
-        {
-            _color = color;
         }
     }
 }

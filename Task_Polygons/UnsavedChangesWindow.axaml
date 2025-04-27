@@ -6,8 +6,7 @@
         x:Class="Task_Polygons.UnsavedChangesWindow"
         Title="Polygons"
 		Width="450" Height="200"
-		WindowStartupLocation="CenterOwner"
-		Closing="Window_Closing">
+		WindowStartupLocation="CenterOwner">
 	<DockPanel>
 		<Grid DockPanel.Dock="Bottom"
 			  VerticalAlignment="Bottom"

@@ -2,7 +2,8 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform.Storage;
 using System;
-using System.IO;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Task_Polygons
 {
@@ -153,51 +154,92 @@ namespace Task_Polygons
 
         private async void Menu_New(object sender, PointerPressedEventArgs e)
         {
+            string result = "NoResult";
+
             if (!_saved)
             {
-                AskToSave();
-            }
+                result = await AskToSave();
 
-            _currentFilePath = null;
-            _saved = true;
+                if (result == "Save")
+                {
+                    if (!await DoSave())
+                    {
+                        result = null;
+                    }
+                }
+            }
+            
+            if (result != null)
+            {
+                _cc.Clear();
+
+                _currentFilePath = null;
+                _saved = true;
+            }
         }
 
         private async void Menu_Open(object sender, PointerPressedEventArgs e)
         {
+            string result = "NoResult";
+
             if (!_saved)
             {
-                AskToSave();
+                result = await AskToSave();
+
+                if (result == "Save")
+                {
+                    if (!await DoSave())
+                    {
+                        result = null;
+                    }
+                }
             }
 
-            var topLevel = GetTopLevel(this);
-
-            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            if (result != null)
             {
-                Title = "Open File",
-                AllowMultiple = false
-            });
+                var topLevel = GetTopLevel(this);
 
-            if (files.Count >= 1)
-            {
-                _cc.LoadState(files[0].Path.AbsolutePath.ToString());
-                _currentFilePath = files[0].Path.AbsolutePath.ToString();
+                var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+                {
+                    Title = "Open File",
+                    AllowMultiple = false
+                });
+
+                if (files.Count >= 1)
+                {
+                    _cc.LoadState(files[0].Path.AbsolutePath.ToString());
+                    _currentFilePath = files[0].Path.AbsolutePath.ToString();
+                    _saved = true;
+                }
             }
         }
 
         private async void Menu_Save(object sender, PointerPressedEventArgs e)
         {
+            await DoSave();
+        }
+
+        private async Task<bool> DoSave()
+        {
             if (_currentFilePath == null)
             {
-                Menu_SaveAs(sender, e);
+                return await DoSaveAs();
             }
             else
             {
                 _cc.SaveState(_currentFilePath);
                 _saved = true;
+
+                return true;
             }
         }
 
         private async void Menu_SaveAs(object sender, PointerPressedEventArgs e)
+        {
+            await DoSaveAs();
+        }
+
+        private async Task<bool> DoSaveAs()
         {
             var topLevel = GetTopLevel(this);
 
@@ -211,7 +253,11 @@ namespace Task_Polygons
                 _cc.SaveState(file.Path.AbsolutePath.ToString());
                 _currentFilePath = file.Path.AbsolutePath.ToString();
                 _saved = true;
+
+                return true;
             }
+
+            return false;
         }
 
         private void Menu_Exit(object sender, PointerPressedEventArgs e)
@@ -219,27 +265,47 @@ namespace Task_Polygons
             Close();
         }
 
-        private void Window_Closing(object sender, WindowClosingEventArgs e)
+        private async void Window_Closing(object sender, WindowClosingEventArgs e)
         {
             if (!_saved)
             {
-                AskToSave();
+                e.Cancel = true;
+
+                var result = await AskToSave();
+
+                if (result == "Save")
+                {
+                    if (await DoSave())
+                    {
+                        _saved = true;
+                        Close();
+                    }
+                }
+                else if (result == "DontSave")
+                {
+                    _saved = true;
+                    Close();
+                }
             }
 
-            if (_graphWindow != null)
+            if (!e.Cancel)
             {
-                _graphWindow.MainWindowClosing();
-            }
-            if (_radiusWindow != null)
-            {
-                _radiusWindow.MainWindowClosing();
+                if (_graphWindow != null)
+                {
+                    _graphWindow.MainWindowClosing();
+                }
+                if (_radiusWindow != null)
+                {
+                    _radiusWindow.MainWindowClosing();
+                }
             }
         }
 
-        private void AskToSave()
+        private async Task<string> AskToSave()
         {
             UnsavedChangesWindow unsavedChangesWindow = new UnsavedChangesWindow();
-            unsavedChangesWindow.ShowDialog(this);
+            var result = await unsavedChangesWindow.ShowDialog<string>(this);
+            return result;
         }
     }
 }

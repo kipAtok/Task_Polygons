@@ -8,13 +8,13 @@ namespace Task_Polygons
     class SaveInfo
     {
         [ProtoMember(1)]
-        public List<Shape> Shapes { get; set; }
+        public List<Shape> Shapes { get; }
 
         [ProtoMember(2)]
-        public int R { get; set; }
+        public int R { get; }
 
         [ProtoMember(3)]
-        public Color Color { get; set; }
+        public Color Color { get; }
 
         public SaveInfo(List<Shape> shapes, int r, Color color)
         {

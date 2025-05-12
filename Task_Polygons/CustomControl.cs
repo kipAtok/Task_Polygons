@@ -1,11 +1,14 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Threading;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Timers;
 
 namespace Task_Polygons
 {
@@ -18,6 +21,8 @@ namespace Task_Polygons
         private Pen _pen = new Pen(Brushes.Green);
         private DrawShellDelegate DrawShell;
         private List<Shape> _shapes = [];
+        private Random _random = new Random();
+        private Timer _timer;
 
         public override void Render(DrawingContext drawingContext)
         {
@@ -182,10 +187,12 @@ namespace Task_Polygons
             SaveInfo saveInfo = Serializer.Deserialize<SaveInfo>(fs); ;
 
             _shapes = saveInfo.Shapes;
+
             if (_shapes == null)
             {
                 _shapes = new List<Shape>();
             }
+
             UpdateRadius(saveInfo.R);
             UpdateColor(saveInfo.Color);
 
@@ -195,8 +202,28 @@ namespace Task_Polygons
         public void Clear()
         {
             _shapes = new List<Shape>();
+
             UpdateRadius(25);
             UpdateColor(Colors.Green);
+        }
+
+        public void StartDynamics()
+        {
+            if (_timer == null)
+            {
+                _timer = new Timer(100);
+                _timer.Elapsed += Tick;
+            }
+
+            _timer.Start();
+        }
+
+        public void StopDynamics()
+        {
+            if (_timer != null)
+            {
+                _timer.Stop();
+            }
         }
 
         private void DrawShellDefenition(DrawingContext drawingContext)
@@ -209,6 +236,7 @@ namespace Task_Polygons
             {
                 shape.IsShell = false;
             }
+
             foreach (var shape1 in _shapes)
             {
                 i2 = 0;
@@ -339,6 +367,19 @@ namespace Task_Polygons
         private void RemoveNonShell()
         {
             _shapes = _shapes.FindAll(x => x.IsShell);
+        }
+
+        private void Tick(object sender, ElapsedEventArgs e)
+        {
+            foreach (var shape in _shapes)
+            {
+                shape.Move(_random.Next(-1, 2), _random.Next(-1, 2));
+            }
+
+            DrawShell(null);
+            RemoveNonShell();
+
+            Dispatcher.UIThread.Invoke(InvalidateVisual);
         }
     }
 }

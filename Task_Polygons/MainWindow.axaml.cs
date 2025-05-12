@@ -307,5 +307,15 @@ namespace Task_Polygons
             var result = await unsavedChangesWindow.ShowDialog<string>(this);
             return result;
         }
+
+        private void Menu_StartDynamics(object sender, PointerPressedEventArgs e)
+        {
+            _cc.StartDynamics();
+        }
+
+        private void Menu_StopDynamics(object sender, PointerPressedEventArgs e)
+        {
+            _cc.StopDynamics();
+        }
     }
 }

@@ -6,6 +6,7 @@
         x:Class="Task_Polygons.RadiusWindow"
         Title="Radius setting"
 		Width="600" Height="100"
+		CanResize="False"
 		Closing="Window_Closing">
 	<Slider Width="500"
 			VerticalAlignment="Center"

@@ -376,8 +376,11 @@ namespace Task_Polygons
                 shape.Move(_random.Next(-1, 2), _random.Next(-1, 2));
             }
 
-            DrawShell(null);
-            RemoveNonShell();
+            if (_shapes.Count >= 3)
+            {
+                DrawShell(null);
+                RemoveNonShell();
+            }
 
             Dispatcher.UIThread.Invoke(InvalidateVisual);
         }

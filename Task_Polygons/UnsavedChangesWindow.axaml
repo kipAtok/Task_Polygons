@@ -6,6 +6,7 @@
         x:Class="Task_Polygons.UnsavedChangesWindow"
         Title="Polygons"
 		Width="450" Height="200"
+		CanResize="False"
 		WindowStartupLocation="CenterOwner">
 	<DockPanel>
 		<Grid DockPanel.Dock="Bottom"
@@ -31,7 +32,7 @@
 				   HorizontalAlignment="Center"
 				   Margin="0, 20, 0, 0"
 				   Foreground="LimeGreen">
-				Do you want to save channges you made?
+				Do you want to save changes you made?
 			</Label>
 			<Label Grid.Row="1"
 				   HorizontalAlignment="Center"

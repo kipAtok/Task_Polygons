@@ -5,6 +5,7 @@
 		xmlns:Task_Polygons="clr-namespace:Task_Polygons"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.GraphWindow"
+		Width="1280" Height="720"
         Title="Algorithms graph"
 		Closing="Window_Closing">
 	<DockPanel>

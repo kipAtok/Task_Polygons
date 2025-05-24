@@ -6,6 +6,7 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Task_Polygons.MainWindow"
         Title="Polygons"
+		Width="1280" Height="720"
 		PointerPressed="Window_PointerPressed"
 		PointerMoved="Window_PointerMoved"
 		PointerReleased="Window_PointerReleased"
@@ -50,12 +51,16 @@
 				<MenuItem Header="Color"
 						  PointerPressed="Menu_ColorSettingSelected"/>
 			</MenuItem>
-			<MenuItem Header="Start"
-					  Foreground="Black"
-					  PointerPressed="Menu_StartDynamics"/>
-			<MenuItem Header="Stop"
-					  Foreground="Black"
-					  PointerPressed="Menu_StopDynamics"/>
+			<MenuItem PointerPressed="Menu_StartDynamics">
+				<MenuItem.Header>
+					<Image Width="16" Height="16" Source="Assets/start_icon.png"/>
+				</MenuItem.Header>
+			</MenuItem>
+			<MenuItem PointerPressed="Menu_StopDynamics">
+				<MenuItem.Header>
+					<Image Width="16" Height="16" Source="Assets/stop_icon.png"/>
+				</MenuItem.Header>
+			</MenuItem>
 		</Menu>
 		<Task_Polygons:CustomControl Name="myCC"/>
 	</DockPanel>

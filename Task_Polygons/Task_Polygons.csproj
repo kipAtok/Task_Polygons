@@ -22,5 +22,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Runtime.Serialization.Formatters" Version="9.0.4" />
+	  <AvaloniaResource Include="Assets/**"/>
   </ItemGroup>
 </Project>

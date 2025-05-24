@@ -6,6 +6,7 @@
         x:Class="Task_Polygons.ColorWindow"
         Title="Color setting"
 		Width="600" Height="100"
+		CanResize="False"
 		Closing="Window_Closing">
 	<DockPanel>
 		<ColorPicker Name="ColorPicker"

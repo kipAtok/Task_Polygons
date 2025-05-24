@@ -172,6 +172,7 @@ namespace Task_Polygons
             if (result != null)
             {
                 _cc.Clear();
+                ShapeTypes.SelectedIndex = 0;
 
                 _currentFilePath = null;
                 _saved = true;

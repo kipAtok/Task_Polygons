@@ -173,9 +173,9 @@ namespace Task_Polygons
         {
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
 
-            SaveInfo saveInfo = new SaveInfo(_shapes, Shape.R, Shape.Color);
+            StateInfo state = new StateInfo(_shapes, Shape.R, Shape.Color);
 
-            Serializer.Serialize(fs, saveInfo);
+            Serializer.Serialize(fs, state);
 
             fs.Close();
         }
@@ -184,17 +184,17 @@ namespace Task_Polygons
         {
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-            SaveInfo saveInfo = Serializer.Deserialize<SaveInfo>(fs); ;
+            StateInfo state = Serializer.Deserialize<StateInfo>(fs);
 
-            _shapes = saveInfo.Shapes;
+            _shapes = state.Shapes;
 
             if (_shapes == null)
             {
                 _shapes = new List<Shape>();
             }
 
-            UpdateRadius(saveInfo.R);
-            UpdateColor(saveInfo.Color);
+            UpdateRadius(state.R);
+            UpdateColor(state.Color);
 
             fs.Close();
         }

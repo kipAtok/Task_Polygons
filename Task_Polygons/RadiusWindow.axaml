@@ -8,10 +8,10 @@
 		Width="600" Height="100"
 		CanResize="False"
 		Closing="Window_Closing">
-	<Slider Width="500"
+	<Slider Name="RadiusWindow_Slider"
+			Width="500"
 			VerticalAlignment="Center"
 			Minimum="10" Maximum="100"
-			Value="25"
 			ValueChanged="Slider_ValueChanged">
 	</Slider>
 </Window>

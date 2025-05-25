@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Task_Polygons
 {
     [ProtoContract(SkipConstructor=true)]
-    class SaveInfo
+    class StateInfo
     {
         [ProtoMember(1)]
         public List<Shape> Shapes { get; }
@@ -16,7 +16,7 @@ namespace Task_Polygons
         [ProtoMember(3)]
         public Color Color { get; }
 
-        public SaveInfo(List<Shape> shapes, int r, Color color)
+        public StateInfo(List<Shape> shapes, int r, Color color)
         {
             Shapes = shapes;
             R = r;

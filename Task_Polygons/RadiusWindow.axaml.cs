@@ -9,15 +9,22 @@ public partial class RadiusWindow : Window
 
     public event RadiusChangedHandler RC;
 
-    public RadiusWindow()
+    public RadiusWindow(int r)
     {
         InitializeComponent();
+
+        RadiusWindow_Slider.Value = r;
     }
 
     public void MainWindowClosing()
     {
         _mainWindowClosing = true;
         Close();
+    }
+
+    public void UpdateRadius(int r) 
+    { 
+        RadiusWindow_Slider.Value = r;
     }
 
     private void Window_Closing(object sender, WindowClosingEventArgs e)

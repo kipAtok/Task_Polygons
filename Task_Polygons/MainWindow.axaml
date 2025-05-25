@@ -33,10 +33,12 @@
 				<MenuItem Header="Exit"
 						  PointerPressed="Menu_Exit"/>
 			</MenuItem>
+			
 			<MenuItem Header="Shape type"
 					  Foreground="Black">
 				<ListBox Name="ShapeTypes" SelectionChanged="Menu_ShapeTypeChanged"/>
 			</MenuItem>
+			
 			<MenuItem Header="Algorithms"
 					  Foreground="Black">
 				<ListBox Name="DrawShellAlgs" SelectionChanged="Menu_DrawShellAlgChanged"/>
@@ -44,6 +46,7 @@
 				<MenuItem Header="Algorithms efficiency graph"
 						  PointerPressed="Menu_DrawGraph"/>
 			</MenuItem>
+			
 			<MenuItem Header="Settings"
 					  Foreground="Black">
 				<MenuItem Header="Radius"
@@ -51,6 +54,7 @@
 				<MenuItem Header="Color"
 						  PointerPressed="Menu_ColorSettingSelected"/>
 			</MenuItem>
+			
 			<MenuItem PointerPressed="Menu_StartDynamics">
 				<MenuItem.Header>
 					<Image Width="16" Height="16" Source="Assets/start_icon.png"/>
@@ -59,6 +63,17 @@
 			<MenuItem PointerPressed="Menu_StopDynamics">
 				<MenuItem.Header>
 					<Image Width="16" Height="16" Source="Assets/stop_icon.png"/>
+				</MenuItem.Header>
+			</MenuItem>
+
+			<MenuItem PointerPressed="Menu_Undo">
+				<MenuItem.Header>
+					<Image Width="16" Height="16" Source="Assets/left_arrow_icon.png"/>
+				</MenuItem.Header>
+			</MenuItem>
+			<MenuItem PointerPressed="Menu_Redo">
+				<MenuItem.Header>
+					<Image Width="16" Height="16" Source="Assets/right_arrow_icon.png"/>
 				</MenuItem.Header>
 			</MenuItem>
 		</Menu>

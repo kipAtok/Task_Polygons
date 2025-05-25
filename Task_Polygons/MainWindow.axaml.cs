@@ -13,7 +13,6 @@ namespace Task_Polygons
         private CustomControl _cc;
         private GraphWindow _graphWindow; 
         private RadiusWindow _radiusWindow;
-        private ColorWindow _colorWindow;
         private string _currentFilePath;
         private bool _saved;
 
@@ -108,7 +107,7 @@ namespace Task_Polygons
         {
             if (_radiusWindow == null)
             {
-                _radiusWindow = new RadiusWindow();
+                _radiusWindow = new RadiusWindow(Shape.R);
                 _radiusWindow.RC += Window_UpdateRadius;
                 _radiusWindow.Show();
             }
@@ -128,16 +127,11 @@ namespace Task_Polygons
 
         private void Menu_ColorSettingSelected(object sender, PointerPressedEventArgs e)
         {
-            if (_colorWindow == null)
-            {
-                _colorWindow = new ColorWindow();
-                _colorWindow.ColC += Window_UpdateColor;
-                _colorWindow.ShowDialog(this);
-            }
-            else if (!_colorWindow.IsVisible)
-            {
-                _colorWindow.ShowDialog(this);
-            }
+            ColorWindow colorWindow = new ColorWindow(Shape.Color);
+
+            colorWindow.ColC += Window_UpdateColor;
+
+            colorWindow.ShowDialog(this);
         }
 
         private void Window_UpdateRadius(object sender, EventArgs e)
@@ -210,6 +204,12 @@ namespace Task_Polygons
                 {
                     _cc.LoadState(files[0].Path.AbsolutePath.ToString());
                     _currentFilePath = files[0].Path.AbsolutePath.ToString();
+
+                    if (_radiusWindow != null)
+                    {
+                        _radiusWindow.UpdateRadius(Shape.R);
+                    }
+
                     _saved = true;
                 }
             }
@@ -317,6 +317,16 @@ namespace Task_Polygons
         private void Menu_StopDynamics(object sender, PointerPressedEventArgs e)
         {
             _cc.StopDynamics();
+        }
+
+        private void Menu_Undo(object sender, PointerPressedEventArgs e)
+        {
+            
+        }
+
+        private void Menu_Redo(object sender, PointerPressedEventArgs e)
+        {
+            
         }
     }
 }

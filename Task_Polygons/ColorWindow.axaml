@@ -6,12 +6,10 @@
         x:Class="Task_Polygons.ColorWindow"
         Title="Color setting"
 		Width="600" Height="100"
-		CanResize="False"
-		Closing="Window_Closing">
+		CanResize="False">
 	<DockPanel>
-		<ColorPicker Name="ColorPicker"
+		<ColorPicker Name="ColorWindow_ColorPicker"
 					 DockPanel.Dock="Top"
-					 Color="Green"
 					 Margin="10"/>
 		<Grid ColumnDefinitions="300,300">
 			<Button Content="Ok"

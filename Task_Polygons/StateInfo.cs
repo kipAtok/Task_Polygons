@@ -7,13 +7,13 @@ namespace Task_Polygons
     [ProtoContract(SkipConstructor=true)]
     class StateInfo
     {
-        [ProtoMember(1)]
+        [ProtoMember(8)]
         public List<Shape> Shapes { get; }
 
-        [ProtoMember(2)]
+        [ProtoMember(9)]
         public int R { get; }
 
-        [ProtoMember(3)]
+        [ProtoMember(10)]
         public Color Color { get; }
 
         public StateInfo(List<Shape> shapes, int r, Color color)

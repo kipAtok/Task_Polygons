@@ -17,12 +17,21 @@ namespace Task_Polygons
         private delegate void DrawShellDelegate(DrawingContext drawingContext);
 
         private int _x, _y;
+
         private string _shapeType;
+
         private Pen _pen = new Pen(Brushes.Green);
         private DrawShellDelegate DrawShell;
+
         private List<Shape> _shapes = [];
+
         private Random _random = new Random();
         private Timer _timer;
+
+        private int _stateIndex = 0;
+        private List<StateInfo> _states = [new StateInfo([], 25, Colors.Green)];
+        private bool _startedMoving;
+        private bool _lastStateIsMovement;
 
         public override void Render(DrawingContext drawingContext)
         {
@@ -52,31 +61,37 @@ namespace Task_Polygons
 
             if (!isInside) 
             {
-                if (_shapeType == "Circle")
-                {
-                    _shapes.Add(new Circle(x, y));
-                }
-                else if (_shapeType == "Square")
-                {
-                    _shapes.Add(new Square(x, y));
-                }
-                else if (_shapeType == "Triangle")
-                {
-                    _shapes.Add(new Triangle(x, y));
-                }
+                AddShape(x, y);
             }
-
+            else
+            {
+                AddState();
+                _startedMoving = true;
+                Debug.WriteLine("Movement started");
+            }
+            
             if (_shapes.Count >= 3)
             {
                 DrawShell(null);
+
                 if (!_shapes.Last().IsShell)
                 {
                     foreach (var shape in _shapes)
                     {
                         shape.IsMoving = true;
                     }
+
+                    RemoveNonShell();
+
+                    AddState();
+                    _startedMoving = true;
+                    Debug.WriteLine("Movement started");
                 }
-                RemoveNonShell();
+                else if (!_startedMoving)
+                {
+                    RemoveNonShell();
+                    AddState();
+                }
             }
 
             _x = x;
@@ -100,6 +115,8 @@ namespace Task_Polygons
             if (shapeToRemove != null)
             {
                 _shapes.Remove(shapeToRemove);
+
+                AddState();
             }
 
             InvalidateVisual();
@@ -136,6 +153,13 @@ namespace Task_Polygons
             
             RemoveNonShell();
 
+            if (_startedMoving)
+            {
+                _startedMoving = false;
+                AddState(true);
+                Debug.WriteLine("Movement stoped");
+            }
+
             InvalidateVisual();
         }
 
@@ -156,16 +180,28 @@ namespace Task_Polygons
             }
         }
 
-        public void UpdateRadius(int r)
+        public void UpdateRadius(int r, bool final = false)
         {
             Shape.R = r;
+
+            if (final)
+            {
+                AddState();
+            }
+
             InvalidateVisual();
         }
 
-        public void UpdateColor(Color color)
+        public void UpdateColor(Color color, bool fromSettings = false)
         {
             Shape.Color = color;
             _pen = new Pen(new SolidColorBrush(color));
+
+            if (fromSettings)
+            {
+                AddState();
+            }
+
             InvalidateVisual();
         }
 
@@ -186,15 +222,7 @@ namespace Task_Polygons
 
             StateInfo state = Serializer.Deserialize<StateInfo>(fs);
 
-            _shapes = state.Shapes;
-
-            if (_shapes == null)
-            {
-                _shapes = new List<Shape>();
-            }
-
-            UpdateRadius(state.R);
-            UpdateColor(state.Color);
+            ApplyState(state);
 
             fs.Close();
         }
@@ -223,6 +251,102 @@ namespace Task_Polygons
             if (_timer != null)
             {
                 _timer.Stop();
+            }
+        }
+
+        public void Undo()
+        {
+            _stateIndex--;
+
+            if (_stateIndex < 0)
+            {
+                _stateIndex = 0;
+            }
+
+            ApplyState(_states[_stateIndex]);
+
+            Debug.WriteLine($"Undo {_stateIndex} / {_states.Count - 1}");
+        }
+
+        public void Redo()
+        {
+            _stateIndex++;
+
+            if (_stateIndex == _states.Count)
+            {
+                _stateIndex--;
+            }
+
+            ApplyState(_states[_stateIndex]);
+
+            Debug.WriteLine($"Redo {_stateIndex} / {_states.Count - 1}");
+        }
+
+        private void ApplyState(StateInfo state)
+        {
+            _shapes = state.Shapes;
+
+            if (_shapes == null)
+            {
+                _shapes = new List<Shape>();
+            }
+
+            UpdateRadius(state.R);
+            UpdateColor(state.Color);
+        }
+
+        private void AddState(bool lastStateIsMovement = false)
+        {
+            if (_stateIndex != _states.Count - 1)
+            {
+                if (_stateIndex == 0)
+                {
+                    _states = [new StateInfo([], 25, Colors.Green)];
+                }
+                else
+                {
+                    _states = _states.Slice(0, _stateIndex + 1);
+                }
+            }
+
+            if (lastStateIsMovement)
+            {
+                _stateIndex--;
+                _states = _states.Slice(0, _stateIndex + 1);
+            }
+
+            _stateIndex++;
+
+            List<Shape> shapes = [];
+
+            foreach (var shape in _shapes)
+            {
+                shapes.Add(shape.Clone());
+            }
+
+            _states.Add(new StateInfo(shapes, Shape.R, Shape.Color));
+
+            Debug.WriteLine($"State added; Count: {_states.Count}");
+        }
+
+        private void AddShape(int x, int y)
+        {
+            if (_shapeType == "Circle")
+            {
+                _shapes.Add(new Circle(x, y));
+            }
+            else if (_shapeType == "Square")
+            {
+                _shapes.Add(new Square(x, y));
+            }
+            else if (_shapeType == "Triangle")
+            {
+                _shapes.Add(new Triangle(x, y));
+            }
+
+            if (_shapes.Count < 3)
+            {
+                AddState();
             }
         }
 

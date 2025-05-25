@@ -85,6 +85,13 @@ namespace Task_Polygons
             _x += x;
             _y += y;
         }
+
+        public virtual Shape Clone()
+        {
+            Shape shape = (Shape)MemberwiseClone();
+            shape.IsMoving = false;
+            return shape;
+        }
     }
 }
 

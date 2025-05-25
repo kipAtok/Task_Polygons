@@ -136,13 +136,13 @@ namespace Task_Polygons
 
         private void Window_UpdateRadius(object sender, EventArgs e)
         {
-            _cc.UpdateRadius(((RadiusEventArgs)e).Radius);
+            _cc.UpdateRadius(((RadiusEventArgs)e).Radius, ((RadiusEventArgs)e).Final);
             _saved = false;
         }
 
         private void Window_UpdateColor(object sender, EventArgs e)
         {
-            _cc.UpdateColor(((ColorEventArgs)e).Color);
+            _cc.UpdateColor(((ColorEventArgs)e).Color, true);
             _saved = false;
         }
 
@@ -321,12 +321,12 @@ namespace Task_Polygons
 
         private void Menu_Undo(object sender, PointerPressedEventArgs e)
         {
-            
+            _cc.Undo();
         }
 
         private void Menu_Redo(object sender, PointerPressedEventArgs e)
         {
-            
+            _cc.Redo();
         }
     }
 }

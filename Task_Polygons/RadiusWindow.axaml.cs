@@ -33,6 +33,11 @@ public partial class RadiusWindow : Window
         {
             ((Window)sender).Hide();
             e.Cancel = true;
+
+            if (RC != null)
+            {
+                RC(this, new RadiusEventArgs((int)RadiusWindow_Slider.Value, true));
+            }
         }
     }
 

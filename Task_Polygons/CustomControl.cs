@@ -31,7 +31,6 @@ namespace Task_Polygons
         private int _stateIndex = 0;
         private List<StateInfo> _states = [new StateInfo([], 25, Colors.Green)];
         private bool _startedMoving;
-        private bool _lastStateIsMovement;
 
         public override void Render(DrawingContext drawingContext)
         {
